@@ -1,7 +1,6 @@
 import React, { useEffect, } from 'react';
 import { IoArrowBackOutline } from "react-icons/io5";
 import { IoPersonCircleOutline } from "react-icons/io5";
-import 'App.css';
 const Chat = ({ showChat, setShowChat }) => {
 
   useEffect(() => {
@@ -15,9 +14,13 @@ const Chat = ({ showChat, setShowChat }) => {
           <button className="p-5" onClick={() => setShowChat(false)}>
           <IoArrowBackOutline className='h-8 w-8'/>
           </button>
-          
+          <div className='flex items-center mx-8'>
+          <p className='font-[Pretendard] text-[28px] font-bold'>채팅하기</p>
+          </div>
+
+
           {/* 한명 */}
-          <div className='m-10 font-[Pretendard] font-bold'>
+          <div className='m-10 font-[Pretendard] font-bold '>
             <ul>
               <ul className='flex items-end justify-between'>
                 <div className='flex items-center gap-5'>
