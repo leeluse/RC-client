@@ -6,6 +6,7 @@ export default {
     './src/styles/main.css'
   ],
   theme: {
+    fontFamily: {},
     extend: {
       colors: {
       }
