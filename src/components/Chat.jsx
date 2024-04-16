@@ -20,7 +20,7 @@ const Chat = ({ showChat, setShowChat }) => {
 
 
           {/* 한명 */}
-          <div className='m-10 font-[Pretendard] font-bold '>
+          <div className='min-w-80 m-10 font-[Pretendard] font-bold '>
             <ul>
               <ul className='flex items-end justify-between'>
                 <div className='flex items-center gap-5'>
@@ -35,7 +35,7 @@ const Chat = ({ showChat, setShowChat }) => {
             </ul>
           </div>
 
-          <div className='m-10 font-[Pretendard] font-bold'>
+          <div className='min-w-80 m-10 font-[Pretendard] font-bold'>
             <ul>
               <ul className='flex items-end justify-between'>
                 <div className='flex items-center gap-5'>

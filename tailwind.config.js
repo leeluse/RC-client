@@ -6,7 +6,9 @@ export default {
     './src/styles/main.css'
   ],
   theme: {
-    fontFamily: {},
+    fontFamily: {
+      Pretendard: ["Pretendard"]
+    },
     extend: {
       colors: {
       }
