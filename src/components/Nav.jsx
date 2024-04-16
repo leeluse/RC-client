@@ -14,7 +14,7 @@ const Nav = ({}) => {
   return (
     <>
     <div className='bg-white fixed min-w-full h-[120px] flex items-center 
-      justify-center font-[Pretendard] text-medium shadow-md'>
+      justify-center font-Pretendard text-medium shadow-md'>
       <div className='sm:w-2/3 lg:w-2/3 flex items-center justify-between'>
         {/*  홈 로고 */}
         <button onClick={() => {navigate('/')}}>

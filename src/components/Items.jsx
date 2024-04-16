@@ -36,10 +36,8 @@ function Items() {
 
   return (
     <>
-    <div className='overflow-y-auto max-h-[calc(100vh-120)]'>
-
-    </div>
-      {groupProducts.map((group, index) => (
+    <div className='h-full w-full'>
+    {groupProducts.map((group, index) => (
         <div key={index} className="flex">
           {group.map((product, index) => (
             <ProductItem 
@@ -52,6 +50,8 @@ function Items() {
           ))}
         </div>
       ))}
+    </div>
+      
     </>
   )  
 }
@@ -68,9 +68,9 @@ function ProductItem({ name, price, status, src }) {
   }, [heart])
   
   return (
-    <div className='w-2/3 p-2'>
+    <div className='w-2/3 p-2 '>
       <div className='flex-col 
-       text-start font-[Pretendard] rounded-md border '>
+       text-start font-Pretendard rounded-md border '>
        {/* 상품 이미지 */}
         <img className="w-full h-full " src={src} />
         <div className='mx-3 my-2'>
