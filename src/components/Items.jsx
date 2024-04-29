@@ -36,7 +36,9 @@ function Items() {
 
   return (
     <>
-    <div className='h-full w-full'>
+    <div className='flex justify-center h-screen overflow-auto scrollbar-hide'>
+    <div className='sm:w-2/3 md:w-1/2 lg:w-1/2'>
+    <div className='w-full pt-40 pb-20'>
     {groupProducts.map((group, index) => (
         <div key={index} className="flex">
           {group.map((product, index) => (
@@ -51,7 +53,8 @@ function Items() {
         </div>
       ))}
     </div>
-      
+    </div>
+    </div>
     </>
   )  
 }
@@ -68,7 +71,7 @@ function ProductItem({ name, price, status, src }) {
   }, [heart])
   
   return (
-    <div className='w-2/3 p-2 '>
+    <div className='w-2/3 p-2'>
       <div className='flex-col 
        text-start font-Pretendard rounded-md border '>
        {/* 상품 이미지 */}
@@ -108,7 +111,7 @@ function ProductItem({ name, price, status, src }) {
                 )}
           </div>
         </div>
-      </div>
+        </div>
     </div>
   );
 }

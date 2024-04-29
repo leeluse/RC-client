@@ -2,13 +2,17 @@ import { Route, Routes } from 'react-router-dom'
 import './App.css'
 import MainPage from './pages/MainPage'
 import ChatPage from './pages/ChatPage'
-import socket from './utils/server'
+import LoginPage from './pages/LoginPage'
+import RegisterPage from './pages/RegisterPage'
+
 function App() {
 
   return (
-    <Routes>
+    <Routes >
     <Route path="/" element={<MainPage />} />
-    <Route path="/chat" element={<ChatPage />} />
+    <Route path='chat/:index' element={<ChatPage />} />
+    <Route path='signin' element={<LoginPage />} />
+    <Route path='signup' element={<RegisterPage />} />
     
       {/* <Route path='product/:id' element={<DetailPage />} />
         <Route path='cart' element={<CartPage />} />
