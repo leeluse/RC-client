@@ -3,8 +3,6 @@ import { IoChatbubbleEllipses  } from "react-icons/io5";
 import { IoPersonCircleSharp } from "react-icons/io5";
 import Chat from './Chat';
 import { Link, useNavigate } from 'react-router-dom';
-import socket from '../utils/server'
-
 
 const Nav = ({}) => {
   const [showChat, setShowChat] = useState(false);
