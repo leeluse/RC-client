@@ -1,7 +1,15 @@
 import React, { useEffect, } from 'react';
 import { IoArrowBackOutline } from "react-icons/io5";
 import { IoPersonCircleOutline } from "react-icons/io5";
+import { Link } from 'react-router-dom'
+
 const Chat = ({ showChat, setShowChat }) => {
+
+  const chatUsers = [
+    { userID: "ajgns123", name: "머훈", item: "전자 킥보드 렌탈", message: "안녕하세여" },
+    { userID: "fntm", name: "루스", item: "애플 맥북 프로 13인치",message: "렌탈 가능한가요?" },
+    { userID: "suyeon1420", name: "수연", item: "스쿠버 다이빙 장비", message: "감사합니다!" },
+  ];
 
   useEffect(() => {
 
@@ -18,39 +26,29 @@ const Chat = ({ showChat, setShowChat }) => {
           <p className='font-[Pretendard] text-[28px] font-bold'>채팅하기</p>
           </div>
 
-
-          {/* 한명 */}
-          <div className='min-w-80 m-10 font-[Pretendard] font-bold '>
+          {chatUsers.map((user, index) => (
+          <>
+          <Link to={`/chat/${user.userID}`}>
+          <div className='min-w-80 p-10 font-[Pretendard] font-bold '>
             <ul>
-              <ul className='flex items-end justify-between'>
+              <ul className='flex items-end min-w-96 justify-between'>
                 <div className='flex items-center gap-5'>
                 <li><IoPersonCircleOutline className='w-12 h-12'/></li>
                 <div className='flex-row'>
-                <li className='text-[20px]'>머훈</li>
-                <li className='text-[15px]'>전자 킥보드 렌탈</li>
+                <li className='text-[20px]'>{user.name}</li>
+                <li className='text-[15px]'>{user.item}</li>
                 </div>
                 </div>
-                <li>구입 가능한가요?</li>
+                <div className='text-right min-w-20 '>
+                <li>{user.message}</li>
+                </div>
               </ul>
             </ul>
+            </div>
+          </Link>
+            </>
+          ))}
           </div>
-
-          <div className='min-w-80 m-10 font-[Pretendard] font-bold'>
-            <ul>
-              <ul className='flex items-end justify-between'>
-                <div className='flex items-center gap-5'>
-                <li><IoPersonCircleOutline className='w-12 h-12'/></li>
-                <div className='flex-row'>
-                <li className='text-[20px]'>루스</li>
-                <li className='text-[15px]'>스쿠버 장비 렌탈</li>
-                </div>
-                </div>
-                <li>감사합니다!</li>
-              </ul>
-            </ul>
-          </div>
-
-        </div>
       )}
     </>
   );

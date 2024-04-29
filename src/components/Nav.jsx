@@ -2,7 +2,9 @@ import React, { useEffect, useState } from 'react'
 import { IoChatbubbleEllipses  } from "react-icons/io5";
 import { IoPersonCircleSharp } from "react-icons/io5";
 import Chat from './Chat';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import socket from '../utils/server'
+
 
 const Nav = ({}) => {
   const [showChat, setShowChat] = useState(false);
@@ -10,11 +12,12 @@ const Nav = ({}) => {
 
   useEffect(() => {
   }, [showChat])
-  
+
+
   return (
     <>
-    <div className='bg-white fixed min-w-full h-[120px] flex items-center 
-      justify-center font-Pretendard text-medium shadow-md'>
+    <div className='fixed bg-white min-w-full h-[120px] flex items-center 
+      justify-center font-[Pretendard] text-medium shadow-md'>
       <div className='sm:w-2/3 lg:w-2/3 flex items-center justify-between'>
         {/*  홈 로고 */}
         <button onClick={() => {navigate('/')}}>
@@ -38,9 +41,9 @@ const Nav = ({}) => {
           </div>
           {/* 마이페이지 */}
           <div className='flex items-center '>
-          <button>
+          <Link to='signin' >
           <IoPersonCircleSharp className='w-10 h-10'/>
-          </button>
+          </Link>
           </div>
         </div>
       </div>

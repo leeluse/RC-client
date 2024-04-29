@@ -1,18 +1,18 @@
 import React, { useEffect } from 'react'
-import SignIn from '../LoginPage/sign-in/SignIn'
+import SignUp from '../RegisterPage/sign-up/SignUp'
 
-const LoginPage = () => {
+const RegisterPage = () => {
   useEffect(() => {
   }, [])
   
   return (
     <>
     <div className='flex flex-col h-screen'>
-      <SignIn />
+      <SignUp />
     </div>
     </>
     
   )
 }
 
-export default LoginPage
+export default RegisterPage
