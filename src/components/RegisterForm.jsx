@@ -5,51 +5,17 @@ import { Link, useNavigate, } from 'react-router-dom'
 import { IoPersonCircleOutline } from "react-icons/io5";
 import axios from 'axios';
 
-const RegisterForm = ({title}) => {
-  const navigate = useNavigate();
-
-  // const [userData, setUserData] = useState({id: '', password:''})
+const RegisterForm = ({title, registerHandler}) => {
   const {register, setValue, getValues, handleSubmit, formState: {errors}, reset } = useForm({
   mode: 'onSubmit'
-  
   })
 
   useEffect(() => {
   }, [])
 
 
-  const onSubmit = async (data) => {
-    console.log(data);
-    try {
-      if(title == '회원가입') {
-        const res = await axios.post('http://localhost:5001/user/users', data)
-          if (res.status === 201) {
-            console.log("회원가입 성공", res.data);
-            navigate("/");
-          }
-      }
-      // // 로그인 
-      // if(title  == '로그인') {
-      //   const res = await axios.post('http://localhost:8080', data);
-      //   if (res.status === 200) {
-      //     console.log('로그인 성공', res.data);
-      //     alert('로그인에 성공했습니다!');
-      //     navigate('/homepage');
-      //   }
-      // } 
-      // // 회원가입
-      // else if (title == '회원가입') {
-      //   const res = await axios.post('http://localhost:8080/register', data);
-      //   if(res.status === 201) {
-      //     console.log('회원가입 성공', res.data);
-      //     alert('회원가입에 성공했습니다!');
-      //     navigate('/');
-      //   }
-      // }
-    } catch (error) {
-      console.error('오류:', error.response.data);
-    }
-    // submit 시 reset을 사용해 form 비우기
+  const onSubmit = (data) => {
+    registerHandler(data)
     reset();
   }
 
@@ -131,13 +97,17 @@ const RegisterForm = ({title}) => {
 
      {/* Input */}
     <form onSubmit={handleSubmit(onSubmit)} className='py-5 px-10'>
-    <p className='text-start text-[16px] font-bold'>User Name</p>
+      
+    {title === '회원가입' && (
+      <>
+       <p className='text-start text-[16px] font-bold'>User Name</p>
           <input 
               {...register("name", userName)}
               className="w-full px-2 py-1 border-2 border-slate-300 rounded-md mb-5" 
               placeholder='Enter Your Name' 
               type="userName" />
-      
+      </>
+    )}
       <p className='text-start text-[16px] font-bold'>ID</p>
           <input 
               {...register("id", userID)}
@@ -170,6 +140,7 @@ const RegisterForm = ({title}) => {
       {errors?.passwordConfirm && (
            <p className='font-semibold text-red-700'>{errors.passwordConfirm.message}</p>
          )}
+      
           <button
           type='submit'
           className='px-20 my-3 py-2 bg-slate-500 text-white shadow-orange-200 rounded-md'>
