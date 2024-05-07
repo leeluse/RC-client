@@ -15,11 +15,11 @@ const SignUp = () =>{
         navigate("/sign-in")
       }
     } catch (error) {
-      const { status } = error.response
+      const { status, data } = error.response
       if(error.response) {
         // 서버 응답이 있는 경우
         if(status === 409) {
-          prompt("이미 가입된 계정입니다");
+          alert(data.message);
         } else {
           console.log("서버 오류")
         }
