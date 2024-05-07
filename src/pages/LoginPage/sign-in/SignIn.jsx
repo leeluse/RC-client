@@ -4,7 +4,7 @@ import Nav from '../../../components/Nav';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { useDispatch  } from 'react-redux'
-import { getUser } from '../../../reducer/user'
+import { setUser } from '../../../reducer/user'
 
 const SignIn = () => {
   // user 저장을 위한 selector & dispatch
@@ -17,7 +17,7 @@ const SignIn = () => {
       if(res.status === 200) {
           console.log("로그인 성공", res.data);
           // 로컬 스토리지에 userData 저장
-          dispatch(getUser(res.data))
+          dispatch(setUser(res.data))
           navigate("/");
       } else {
         console.log(res.status)
