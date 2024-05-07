@@ -158,11 +158,11 @@ const RegisterForm = ({title, registerHandler}) => {
          
           { title == '회원가입' ? 
           ( <p className='text-[16px] font-medium'> 계정이 존재합니까? 
-              <Link className='font-bold' to='/signin'>
+              <Link className='font-bold' to='/sign-in'>
                 {" "} 로그인
               </Link> </p> ) : 
           ( <p className='text-[16px] font-medium'> 계정이 없습니까? 
-            <Link className='font-bold' to='/signup' >
+            <Link className='font-bold' to='/sign-up' >
               {" "} 회원가입
             </Link> </p> )
           }

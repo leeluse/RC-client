@@ -4,6 +4,8 @@ import MainPage from './pages/MainPage'
 import ChatPage from './pages/ChatPage'
 import LoginPage from './pages/LoginPage'
 import RegisterPage from './pages/RegisterPage'
+import MyPage from './pages/MyPage'
+
 
 function App() {
 
@@ -11,8 +13,9 @@ function App() {
     <Routes >
     <Route path="/" element={<MainPage />} />
     <Route path='chat/:index' element={<ChatPage />} />
-    <Route path='signin' element={<LoginPage />} />
-    <Route path='signup' element={<RegisterPage />} />
+    <Route path='sign-in' element={<LoginPage />} />
+    <Route path='sign-up' element={<RegisterPage />} />
+    <Route path='my-page' element={<MyPage />} />
     
       {/* <Route path='product/:id' element={<DetailPage />} />
         <Route path='cart' element={<CartPage />} />
