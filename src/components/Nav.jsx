@@ -39,7 +39,7 @@ const Nav = ({}) => {
           </div>
           {/* 마이페이지 */}
           <div className='flex items-center '>
-          <Link to='signin' >
+          <Link to='my-page' >
           <IoPersonCircleSharp className='w-10 h-10'/>
           </Link>
           </div>
