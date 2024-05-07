@@ -16,13 +16,17 @@ const MainPage = () => {
   
 
   return (
+  <>
+    {userToken === null? (<LoginPage />) : (
     <>
-    {userToken === null? (<LoginPage />) : 
-    ( <>
       <Nav />
-      <Items />
-      </>)}
+      <div className='h-screen overflow-auto scrollbar-hide py-36'>
+        <Items />
+      </div>
       </>
+
+    )}
+    </>
   );
 };
 

@@ -3,8 +3,9 @@ import RegisterForm from '../../../components/RegisterForm';
 import Nav from '../../../components/Nav';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import { useDispatch, useSelector } from 'react-redux'
-import { getToken } from '../../../reducer/user'
+import { useDispatch  } from 'react-redux'
+import { getUser } from '../../../reducer/user'
+
 const SignIn = () => {
   // user 저장을 위한 selector & dispatch
   const dispatch = useDispatch();
@@ -16,7 +17,7 @@ const SignIn = () => {
       if(res.status === 200) {
           console.log("로그인 성공", res.data);
           // 로컬 스토리지에 userData 저장
-          dispatch(getToken(res.data.token))
+          dispatch(getUser(res.data))
           navigate("/");
       } else {
         console.log(res.status)
