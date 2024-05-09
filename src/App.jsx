@@ -12,7 +12,7 @@ function App() {
   return (
     <Routes >
     <Route path="/" element={<MainPage />} />
-    <Route path='chat/:index' element={<ChatPage />} />
+    {/* <Route path='chat/:index' element={<ChatPage />} /> */}
     <Route path='sign-in' element={<LoginPage />} />
     <Route path='sign-up' element={<RegisterPage />} />
     <Route path='my-page' element={<MyPage />} />

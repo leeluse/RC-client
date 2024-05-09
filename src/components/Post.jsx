@@ -10,7 +10,6 @@ const Post = () => {
   const postHandler = async () => {
    try {
     const res = await axios.post('/posts', {
-
       title: data.title,
       image: data.image,
       content: data.content
@@ -23,11 +22,13 @@ const Post = () => {
   }
 console.log()
   return (
-
-    <button 
-      onClick={postHandler}
-      className='border-2 border-black'>
-        등록하기</button>
+  <>
+  <button 
+        onClick={postHandler}
+        className='border-2 border-black'>
+          등록하기</button>
+  </>
+      
 
 )
 }

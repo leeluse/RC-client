@@ -18,25 +18,27 @@ const Chat = ({ showChat, setShowChat }) => {
   return (
     <>
       {showChat && (
-        <div className=' shadow-lg fixed top-0 right-0 w-1/2 lg:w-1/3 h-screen z-50 bg-white'>
+        <div className='shadow-lg fixed top-0 right-0  w-1/3 h-screen z-50 bg-white'>
           <button className="p-5" onClick={() => setShowChat(false)}>
           <IoArrowBackOutline className='h-8 w-8'/>
           </button>
-          <div className='flex items-center mx-8'>
+          <div className='flex items-center mx-8 w-full'>
           <p className='font-[Pretendard] text-[28px] font-bold'>채팅하기</p>
           </div>
 
           {chatUsers.map((user, index) => (
           <>
           <Link to={`/chat/${user.userID}`}>
-          <div className='min-w-80 p-10 font-[Pretendard] font-bold '>
+          <div
+            key={index} 
+            className='font-[Pretendard] font-bold '>
             <ul>
-              <ul className='flex items-end min-w-96 justify-between'>
-                <div className='flex items-center gap-5'>
-                <li><IoPersonCircleOutline className='w-12 h-12'/></li>
-                <div className='flex-row'>
-                <li className='text-[20px]'>{user.name}</li>
-                <li className='text-[15px]'>{user.item}</li>
+              <ul className='bg-slate-500  flex items-end min-w-96 justify-between'>
+                <div className='flex items-center  gap-5'>
+                  <li><IoPersonCircleOutline className='w-12 h-12'/></li>
+                  <div className='flex-row'>
+                  <li className='text-[20px]'>{user.name}</li>
+                  <li className='text-[15px]'>{user.item}</li>
                 </div>
                 </div>
                 <div className='text-right min-w-20 '>
