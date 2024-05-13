@@ -12,7 +12,7 @@ const MyPage = () => {
 
    const signoutHandler = () => {
      persistor.purge()
-     nav('/')
+     window.location.href = '/';
    }
 
   useEffect(() => {
@@ -33,6 +33,7 @@ const MyPage = () => {
           <ul className='w-1/5 p-20 flex flex-col items-center gap-8 py-36'>
             {list.map((item, index) => (
               <li key={index} >
+                {/* 카테고리 변경 */}
                 <button
                 onClick={() => {setCategory(item)}}
                 className={`w-36 flex items-center justify-center border rounded-lg py-2
@@ -43,6 +44,7 @@ const MyPage = () => {
               </li>
             ))}
           </ul>
+          {/* 로그아웃 */}
               <button 
                 onClick={signoutHandler}
                 className='items-center border-2 px-10 py-3 bg-slate-200 rounded-lg text-[18px]'>로그아웃</button>
@@ -54,16 +56,15 @@ const MyPage = () => {
             <div className='my-10 px-20'>
               <div className='flex justify-between'>
               <p className='m-4 text-[32px] font-bold'>{category}</p>
+              {/* 게시글 등록 버튼 */}
               <button 
-              onClick={nav('')}
+              onClick={() => nav('/posts')}
               className='my-4 border justify-end rounded-lg px-4 font-semibold text-[18px]'>게시글 등록</button>
               </div>
               <div className='my-4'>
               <MyItems category={category}/>
               </div>
           </div>
-
-           
         </div>
 
         
