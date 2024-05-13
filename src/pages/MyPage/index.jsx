@@ -12,7 +12,7 @@ const MyPage = () => {
 
    const signoutHandler = () => {
      persistor.purge()
-     nav('/sign-in')
+     nav('/')
    }
 
   useEffect(() => {
@@ -26,11 +26,11 @@ const MyPage = () => {
   return (
     <>
     <Nav />
-      <div className='font-Pretendard py-36 h-screen '>
+      <div className='font-Pretendard py-36 h-screen  '>
          {/* 게시물 카테고리 */}
-        <div className='h-full flex justify-start px-10 '>
-          {/* 게시물 리스트 버튼 그룹 */}
-          <ul className='w-1/4 p-20 flex flex-col items-center gap-8 py-36'>
+        <div className='h-full flex justify-center pl-20 pr-40'>
+          <div className='flex flex-col items-center '>
+          <ul className='w-1/5 p-20 flex flex-col items-center gap-8 py-36'>
             {list.map((item, index) => (
               <li key={index} >
                 <button
@@ -43,27 +43,31 @@ const MyPage = () => {
               </li>
             ))}
           </ul>
+              <button 
+                onClick={signoutHandler}
+                className='items-center border-2 px-10 py-3 bg-slate-200 rounded-lg text-[18px]'>로그아웃</button>
+          </div>
+          {/* 게시물 리스트 버튼 그룹 */}
+          
 
             {/* 물품 목록 */}
-            <div className='my-10'>
+            <div className='my-10 px-20'>
               <div className='flex justify-between'>
               <p className='m-4 text-[32px] font-bold'>{category}</p>
-              <button className='my-4 border justify-end rounded-lg px-4 font-semibold text-[18px]'>게시글 등록</button>
+              <button 
+              onClick={nav('')}
+              className='my-4 border justify-end rounded-lg px-4 font-semibold text-[18px]'>게시글 등록</button>
               </div>
               <div className='my-4'>
               <MyItems category={category}/>
               </div>
           </div>
 
+           
         </div>
 
-
-         <button 
-          onClick={signoutHandler}
-          className='border-2 border-slate-500 flex rounded-lg 
-          font-Pretendard text-center text-[23px] '>
-          로그아웃
-        </button> 
+        
+         
     </div>
     </>
   )

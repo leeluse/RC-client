@@ -1,20 +1,8 @@
-import React, { useEffect } from 'react'
-import { useParams } from 'react-router-dom'
-
+import React from 'react'
 
 const index = () => {
-  const { index } = useParams();
-
-  useEffect(() => {
-    console.log(index)
-  
-  }, [])
-  
-
   return (
-    <>
-    <div>HI {index}</div>
-    </>
+    <div>index</div>
   )
 }
 
