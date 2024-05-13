@@ -5,6 +5,7 @@ import ChatPage from './pages/ChatPage'
 import LoginPage from './pages/LoginPage'
 import RegisterPage from './pages/RegisterPage'
 import MyPage from './pages/MyPage'
+import Post from './components/Post'
 
 
 function App() {
@@ -16,6 +17,7 @@ function App() {
     <Route path='sign-in' element={<LoginPage />} />
     <Route path='sign-up' element={<RegisterPage />} />
     <Route path='my-page' element={<MyPage />} />
+    <Route path='posts' element={<Post />} />
     
       {/* <Route path='product/:id' element={<DetailPage />} />
         <Route path='cart' element={<CartPage />} />

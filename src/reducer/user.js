@@ -1,6 +1,6 @@
 // Redux에서 관리할 초기 상태
 const initialSate ={
-  user: null
+  userID: null
 }
 
 // 액션 타입
