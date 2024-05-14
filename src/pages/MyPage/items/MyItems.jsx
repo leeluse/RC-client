@@ -40,8 +40,8 @@ export function MyItems({ category }) {
 
   return (
     <>
-    <div className='justify-center'>
-        <div className='min-w-[600px]  grid justify-center grid-cols-3'>
+    <div className='flex justify-center'>
+        <div className='grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3'>
             {product.map((product, index) => (
                   <Item 
                     key={index}
