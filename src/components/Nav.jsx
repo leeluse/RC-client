@@ -48,7 +48,7 @@ const Nav = ({}) => {
           </div>
         </div>
         
-        <div className='w-full flex justify-end items-center sm:gap-1 lg:gap-2'>
+        <div className='w-full flex justify-end items-center sm:gap-1 lg:gap-3'>
             <IoChatbubbleEllipses onClick={() => {setShowChat(true)}} className='w-9 h-9 cursor-pointer'/>
             <IoPersonCircleSharp  onClick={() => {navigate('/my-page')}} className='w-10 h-10 cursor-pointer'/>
             <IoLogOut onClick={signoutHandler} className='w-11 h-11 cursor-pointer'/>

@@ -5,7 +5,6 @@ import { useNavigate } from 'react-router-dom';
 import Nav from '../../components/Nav';
 import { MyItems } from './items/MyItems';
 import Post from '../../components/Post';
-import Posts from '../../components/Posts';
 
 const MyPage = () => {
   const [category, setCategory] = useState('나의 게시물');
@@ -24,7 +23,7 @@ const MyPage = () => {
           {!showPost ? (
             <>
               {/* 게시물 카테고리 */}
-              <div className='flex sm:flex-row lg:flex-col justify-start lg:mr-16 lg:pl-10'>
+              <div className='flex sm:flex-row lg:flex-col justify-center lg:justify-start lg:mr-16 lg:pl-10'>
                 <ul className=' flex sm:flex-row md:flex-row lg:flex-col items-center gap-4 lg:gap-8 lg:my-36'>
                   {list.map((item, index) => (
                     <li key={index} >
@@ -42,7 +41,7 @@ const MyPage = () => {
                
               </div>
               {/* 물품 목록 */}
-              <div className='my-10 pr-20'>
+              <div className='my-10 lg:pr-20'>
                 <div className='sm:mx-12 md:mx-4 lg:m-3 flex justify-between'>
                   <p className='text-[25px] lg:text-[28px] font-bold '>{category}</p>
                   {/* 게시글 등록 버튼 */}
@@ -56,7 +55,7 @@ const MyPage = () => {
               </div>
             </>
           ) : (
-            <Posts setShowPost={setShowPost} />
+            <Post setShowPost={setShowPost} />
           )}
         </div>
       </div>

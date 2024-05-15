@@ -6,17 +6,17 @@ import { MainItems } from './items/MainItems';
 
 const MainPage = () => {
   // useSelector로 store의 user state에 접근
-  const accessToken = useSelector((state) => state.user.accessToken);
+  // const accessToken = useSelector((state) => state.user.accessToken);
 
-  useEffect(() => {
-    return () => {
-    }
-  }, [accessToken])
+  // useEffect(() => {
+  //   return () => {
+  //   }
+  // }, [accessToken])
   
 
   return (
   <>
-    {accessToken === null? (<LoginPage />) : (
+    {/* {accessToken === null? (<LoginPage />) : ( */}
     <>
       <Nav />
       <div className='h-screen overflow-auto scrollbar-hide py-36'>
@@ -24,7 +24,7 @@ const MainPage = () => {
       </div>
       </>
 
-    )}
+    {/* )} */}
     </>
   );
 };
