@@ -1,21 +1,17 @@
 // Redux에서 관리할 초기 상태
 const initialSate ={
-  userID: null
+  accessToken: null
 }
 
 // 액션 타입
 const SET_USER = 'SET_USER';
-const REMOVE_USER = 'REMOVE_USER';
 
 // 액션 생성자
-export const setUser = ( userData ) => ({ 
+export const setUser = ( token ) => ({ 
   type: SET_USER,
-  payload: userData
+  payload: {accessToken: token}
 });
 
-export const removeToken = (  ) => ({ 
-  type: REMOVE_USER,
-});
 
 export default function user(state = initialSate, action) {
   switch(action.type) {

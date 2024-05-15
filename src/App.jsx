@@ -1,4 +1,4 @@
-import { Route, Routes } from 'react-router-dom'
+import { Navigate, Route, Routes, useNavigate } from 'react-router-dom'
 import './App.css'
 import MainPage from './pages/MainPage'
 import ChatPage from './pages/ChatPage'
@@ -6,6 +6,7 @@ import LoginPage from './pages/LoginPage'
 import RegisterPage from './pages/RegisterPage'
 import MyPage from './pages/MyPage'
 import Post from './components/Post'
+import { useSelector } from 'react-redux'
 
 
 function App() {
