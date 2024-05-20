@@ -6,7 +6,7 @@ import { useSelector } from 'react-redux';
 const Post = ( { setShowPost } ) => {
   const imageInput = useRef()
     // useSelector로 store의 user state에 접근
-  const accessToken = useSelector((state) => state.user.accessToken);
+  const userID = useSelector((state) => state.user.userID)
 
   const [imageData, setImageData] = useState({
     file: null,
@@ -16,12 +16,11 @@ const Post = ( { setShowPost } ) => {
 
 
   const [data, setData] = useState({
-    token: accessToken,
+    userID: userID,
     title: '',
     amount: '',
     period: '',
     content: '',
-    image: imageData
 })
 
 
@@ -45,12 +44,11 @@ const Post = ( { setShowPost } ) => {
       };
 
        // 이미지 데이터 업데이트 후 setData 호출
-       setData({ ...data, image: newImageData });
+       setData({ ...data});
        setImageData(newImageData);
 
       } catch (imageData) {
         console.log("실패")
-        
       }
     }
   }
@@ -58,11 +56,29 @@ const Post = ( { setShowPost } ) => {
 
 
   const postHandler = async () => {
+    console.log(imageData)
+    const formData = new FormData()
+    formData.append("user", data.userID);
+    formData.append("title", data.title);
+    formData.append("amount", data.amount);
+    formData.append("period", data.period);
+    formData.append("content", data.content);
+    if (imageData.file) {
+      formData.append("postImage", imageData.file);
+    }
+
+    // 폼 확인
+    console.log(formData)
+
+
     setShowPost(false)
-    console.log(data)
    try {
-    const res = await axios.post('http://localhost:5001/posts', data);
-     console.log(res.data);
+    const res = await axios.post('http://localhost:5001/posts', formData, {
+      headers: {
+        "Content-Type": "multipart/form-data"
+      }
+    });
+    console.log(res.data);
    } catch (error) {
       console.error(error);
    }
@@ -83,13 +99,13 @@ const Post = ( { setShowPost } ) => {
             <div className='space-y-10 '>
                 {/* useRef를 사용하기 위한 handler */}
                 {imageData.thumbnail == null ? (
-              <div className='flex justify-center items-center rounded-md sm:h-[180px] sm:w-[180px] lg:h-[230px] lg:w-[230px] border-2 shadow-xl border-slate-400'>
+              <div className='flex justify-center items-center rounded-md  w-40 h-40 lg:h-60 lg:w-60 border-2 shadow-xl border-slate-400'>
                   <MdAddPhotoAlternate 
                     onClick={clickHandler}
                     className='text-slate-800 h-12 w-12 lg:h-20 cursor-pointer'/>
               </div>
                 ) : (
-                  <div className='flex  rounded-md order-2 sm:h-[180px] sm:w-[180px] lg:h-[230px] lg:w-[250px] shadow-xl border-slate-400'>
+                  <div className='flex  rounded-md order-2 w-40 h-40 lg:h-60 lg:w-60 shadow-xl border-slate-400'>
                   <img onClick={clickHandler} className='rounded-md cursor-pointer object-cover' src={`${imageData.thumbnail}`} alt='thumbnail' />   
                   </div>
                 )}

@@ -18,7 +18,7 @@ const Chat = ({ showChat, setShowChat }) => {
   return (
     <>
       {showChat && (
-        <div className='shadow-lg fixed top-0 right-0  w-1/3 h-screen z-50 bg-white'>
+        <div className='absolute shadow-lg right-0  w-1/3 h-screen z-50 bg-white'>
           <button className="p-5" onClick={() => setShowChat(false)}>
           <IoArrowBackOutline className='h-8 w-8'/>
           </button>
