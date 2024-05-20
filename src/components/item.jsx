@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { FaHeart, FaRegHeart } from "react-icons/fa";
 
-const Items = ({ name, price, status, src }) => {
+const Items = ({ title, price, status, src }) => {
   const [heart, setHeart] = useState(false)
 
   useEffect(() => {
@@ -20,8 +20,8 @@ const Items = ({ name, price, status, src }) => {
        </div>
         <div className='mx-3 my-2 text-md'>
           {/* 상품 이름 */}
-          <p className='font-bold text-md'>{name}</p>
-          <p className='font-medium text-sm'>{price}</p>
+          <p className='font-bold text-md'>{title}</p>
+          <p className='font-medium text-sm'>{price}원</p>
           
           {/* 상품 상태 */}
           <div className='flex justify-between'>

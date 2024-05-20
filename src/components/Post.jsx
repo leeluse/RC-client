@@ -56,6 +56,7 @@ const Post = ( { setShowPost } ) => {
 
 
   const postHandler = async () => {
+    console.log(imageData)
     const formData = new FormData()
     formData.append("user", data.userID);
     formData.append("title", data.title);
@@ -66,7 +67,10 @@ const Post = ( { setShowPost } ) => {
       formData.append("postImage", imageData.file);
     }
 
-    console.log(data)
+    // 폼 확인
+    console.log(formData)
+
+
     setShowPost(false)
    try {
     const res = await axios.post('http://localhost:5001/posts', formData, {
