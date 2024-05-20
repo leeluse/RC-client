@@ -8,6 +8,7 @@ const SignUp = () =>{
   const navigate = useNavigate()
 
   const registerHandler = async (data) => {
+    console.log(data)
     try {
       const res = await axios.post('http://localhost:5001/signup', data);
       if (res.status === 201) {

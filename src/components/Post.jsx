@@ -21,7 +21,7 @@ const Post = ( { setShowPost } ) => {
     amount: '',
     period: '',
     content: '',
-    image: imageData
+    image: imageData.file
 })
 
 
@@ -83,13 +83,13 @@ const Post = ( { setShowPost } ) => {
             <div className='space-y-10 '>
                 {/* useRef를 사용하기 위한 handler */}
                 {imageData.thumbnail == null ? (
-              <div className='flex justify-center items-center rounded-md sm:h-[180px] sm:w-[180px] lg:h-[230px] lg:w-[230px] border-2 shadow-xl border-slate-400'>
+              <div className='flex justify-center items-center rounded-md  w-40 h-40 lg:h-60 lg:w-60 border-2 shadow-xl border-slate-400'>
                   <MdAddPhotoAlternate 
                     onClick={clickHandler}
                     className='text-slate-800 h-12 w-12 lg:h-20 cursor-pointer'/>
               </div>
                 ) : (
-                  <div className='flex  rounded-md order-2 sm:h-[180px] sm:w-[180px] lg:h-[230px] lg:w-[250px] shadow-xl border-slate-400'>
+                  <div className='flex  rounded-md order-2 w-40 h-40 lg:h-60 lg:w-60 shadow-xl border-slate-400'>
                   <img onClick={clickHandler} className='rounded-md cursor-pointer object-cover' src={`${imageData.thumbnail}`} alt='thumbnail' />   
                   </div>
                 )}
