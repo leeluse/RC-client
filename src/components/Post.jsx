@@ -6,7 +6,7 @@ import { useSelector } from 'react-redux';
 const Post = ( { setShowPost } ) => {
   const imageInput = useRef()
     // useSelector로 store의 user state에 접근
-  const accessToken = useSelector((state) => state.user.accessToken);
+  const userID = useSelector((state) => state.user.userID)
 
   const [imageData, setImageData] = useState({
     file: null,
@@ -16,12 +16,11 @@ const Post = ( { setShowPost } ) => {
 
 
   const [data, setData] = useState({
-    token: accessToken,
+    userID: userID,
     title: '',
     amount: '',
     period: '',
     content: '',
-    image: imageData.file
 })
 
 
@@ -45,12 +44,11 @@ const Post = ( { setShowPost } ) => {
       };
 
        // 이미지 데이터 업데이트 후 setData 호출
-       setData({ ...data, image: newImageData });
+       setData({ ...data});
        setImageData(newImageData);
 
       } catch (imageData) {
         console.log("실패")
-        
       }
     }
   }
@@ -58,11 +56,25 @@ const Post = ( { setShowPost } ) => {
 
 
   const postHandler = async () => {
-    setShowPost(false)
+    const formData = new FormData()
+    formData.append("user", data.userID);
+    formData.append("title", data.title);
+    formData.append("amount", data.amount);
+    formData.append("period", data.period);
+    formData.append("content", data.content);
+    if (imageData.file) {
+      formData.append("postImage", imageData.file);
+    }
+
     console.log(data)
+    setShowPost(false)
    try {
-    const res = await axios.post('http://localhost:5001/posts', data);
-     console.log(res.data);
+    const res = await axios.post('http://localhost:5001/posts', formData, {
+      headers: {
+        "Content-Type": "multipart/form-data"
+      }
+    });
+    console.log(res.data);
    } catch (error) {
       console.error(error);
    }

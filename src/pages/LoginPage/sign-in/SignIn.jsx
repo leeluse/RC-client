@@ -17,8 +17,8 @@ const SignIn = () => {
       const res = await axios.post('http://localhost:5001/signin', data);
       if(res.status === 200) {
           console.log("로그인 성공", res.data);
-          // // 로컬 스토리지에 userData 저장
-          // dispatch(setUser(res.data.token))
+          // 로컬 스토리지에 userData 저장
+          dispatch(setUser(res.data.userID, res.data.token));
           navigate("/");
       } 
       else {
