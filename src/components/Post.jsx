@@ -24,7 +24,6 @@ const Post = ( { setShowPost } ) => {
 })
 
 
-
   // useRef를 사용하기 위한 Handler
   const clickHandler = () => {
    imageInput.current.click()
@@ -56,7 +55,6 @@ const Post = ( { setShowPost } ) => {
 
 
   const postHandler = async () => {
-    console.log(imageData)
     const formData = new FormData()
     formData.append("user", data.userID);
     formData.append("title", data.title);
@@ -66,10 +64,6 @@ const Post = ( { setShowPost } ) => {
     if (imageData.file) {
       formData.append("postImage", imageData.file);
     }
-
-    // 폼 확인
-    console.log(formData)
-
 
     setShowPost(false)
    try {

@@ -6,7 +6,7 @@ const Items = ({ title, price, status, src }) => {
 
   useEffect(() => {
     
-  
+    console.log(src)
     return () => {
       
     }
