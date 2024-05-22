@@ -2,11 +2,20 @@ import axios from 'axios'
 import React, { useEffect, useRef, useState } from 'react'
 import { MdAddPhotoAlternate } from "react-icons/md";
 import { useSelector } from 'react-redux';
+import Dropdown from './Dropdown';
 
 const Post = ( { setShowPost } ) => {
   const imageInput = useRef()
+  const [dropdown, setDropdown] = useState(false)
+
+  const dropdownHandler = () => {
+    setDropdown(!dropdown)
+  }
+
+
     // useSelector로 store의 user state에 접근
   const userID = useSelector((state) => state.user.userID)
+  const [amountValue, setAmountValue] = useState('');
 
   const [imageData, setImageData] = useState({
     file: null,
@@ -52,7 +61,15 @@ const Post = ( { setShowPost } ) => {
     }
   }
   
-
+  const periodHandler = (e) =>  {
+    console.log(+e)
+  }
+  const amountHandler = (e) => {
+    // 정규화로 숫자 콤마 처리
+    const formattedValue = e.target.value.replace(/\D/g, '').replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    setAmountValue(formattedValue);
+    setData({...data, amount: formattedValue})
+  };
 
   const postHandler = async () => {
     const formData = new FormData()
@@ -110,8 +127,8 @@ const Post = ( { setShowPost } ) => {
                        accept='image/*' 
                        onChange={fileUploader} 
                        ref={imageInput}/>
+              </div>
             </div>
-          </div>
         <div className='flex flex-col justify-center items-center'>
           <div className='space-y-5 lg:space-y-10 p-5 lg:p-10'>
           {/* 제목 */}
@@ -127,30 +144,46 @@ const Post = ( { setShowPost } ) => {
               <div>
               <span className='text-lg mr-2 font-bold text-slate-700'>금액</span>
               <input 
-                onChange={(e) => setData({...data, amount: e.target.value})}
+                onChange={amountHandler}
+                value={amountValue}
                 type="text"
                 placeholder='금액을 입력하세요'
                 className='border rounded-md px-4 py-1' />
               </div>
           {/* 주 / 일 / 월 */}
-              <div>
+              <div className='flex items-center'>
               <span className='text-lg mr-2 font-bold text-slate-700'>기간</span>
-              <input 
-                onChange={(e) => setData({...data, period: e.target.value})}
-                type="text"
-                placeholder='주 / 일 / 월'
-                className='border rounded-md px-4 py-1' />
+              <input
+                onChange={periodHandler}
+                className='w-20 mr-2 border rounded-md px-4 py-1'
+                />
+             <div
+              onClick={dropdownHandler}
+              className='border flex justify-center cursor-pointer rounded-md px-4 py-1 bg-slate-400 text-white relative'>
+                <p>주/일/월</p>
+                  {dropdown && (
+                    <div className='rounded-md p-1 top-9 absolute border-2 bg-white text-slate-400 flex flex-col w-full'>
+                      <p
+                        onClick={periodHandler()}>주</p>
+                      <p>일</p>
+                      <p>월</p>
+                    </div>
+                  )}
               </div>
+              </div>
+                
+
           {/* 내용 */}
-              <div>
-              <span className='text-lg mr-2 font-bold text-slate-700'>내용</span>
-              <input 
+              <div className='w-full flex items-center'>
+              <span className='w-auto text-lg mr-2 font-bold text-slate-700'>내용</span>
+              <textarea 
                 onChange={(e) => setData({...data, content: e.target.value})}
                 type="text"
                 placeholder='내용을 입력하세요'
-                className='border rounded-md px-4 py-1' />
+                // 글자 길이 설정
+                maxLength="100"
+                className='border flex-grow resize-none break-all rounded-md px-4 py-1' />
               </div>
-           
           </div>
           <div>
           <button 

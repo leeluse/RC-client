@@ -1,55 +1,71 @@
 import React, { useEffect, useState } from 'react';
 import Item from '../../../components/item';
+import { useSelector } from 'react-redux';
+import axios from 'axios';
 
 export function MyItems({ category }) {
-  const [product, setProductct] = useState([]);
+  const userID = useSelector((state) => state.user.userID);
+
+  const [products, setProducts] = useState([]);
+
+  const endpoint = {
+    "나의 게시물": "mylist",
+    "관심 항목": "likelist",
+    "거래 중 항목": "",
+  }
+
+  const myProducts = async () => {
+    try {
+      const res = await axios.get(`http://localhost:5001/${endpoint[category]}`, userID) ;
+      if(res.status === 200) {
+        console.log(res.data, "데이터 불러오기 성공")
+      }
+      setProducts(res.data)
+    } catch (error) {
+      console.error()
+    }
+  }
 
   useEffect(() => {
-    const selectedProduct = () => {
-      switch (category) {
-        case '관심 항목' :
-          return heartProducts
-        case '거래 중 항목' :
-          return tradingProducts
-        default : 
-          return myProducts
-      }
-    }
-    
-    setProductct(selectedProduct)
+    myProducts();
   }, [category])
 
 
 
-  const myProducts = [
-    { name: '나의 게시물 1', price: '90,000원/월', status: '예약 가능', src: 'src/assets/1.png' },
-    { name: '나의 게시물 2', price: '13,000원/일', status: '렌탈 중', src: 'src/assets/2.png' },
-    { name: '나의 게시물 3', price: '13,000원/일', status: '렌탈 중', src: 'src/assets/2.png' },
-  ];
 
-  const heartProducts = [
-    { name: '관심 항목1', price: '90,000원/월', status: '예약 가능', src: 'src/assets/1.png' },
-    { name: '관심 항목2', price: '13,000원/일', status: '렌탈 중', src: 'src/assets/2.png' },
-  ];
-
-  const tradingProducts = [
-    { name: '거래 중 항목 2', price: '13,000원/일', status: '렌탈 중', src: 'src/assets/2.png' },
-  ];
-
-
+ // 이 부분은 이미지 데이터를 Base64로 변환하는 함수입니다.
+ function arrayBufferToBase64(buffer) {
+  let binary = '';
+  const bytes = new Uint8Array(buffer);
+  const len = bytes.byteLength;
+  for (let i = 0; i < len; i++) {
+    binary += String.fromCharCode(bytes[i]);
+  }
+  return window.btoa(binary);
+}
 
   return (
     <>
     <div className='flex justify-center'>
         <div className='grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3'>
-            {product.map((product, index) => (
-                  <Item 
-                    key={index}
-                    name={product.name}
-                    price={product.price}
-                    status={product.status}
-                    src={product.src}
-                  />))}
+        {products.map((product, index) => {
+              let imageSrc = '';
+              if (product.postImage && product.postImage.data) {
+                const imageData = product.postImage.data.data;
+                const base64Image = arrayBufferToBase64(imageData);
+                imageSrc = `data:image/${product.postImage.contentType};base64,${base64Image}`;
+              }
+              return (
+                <Item 
+                  key={index}
+                  id={product._id}
+                  title={product.postTitle}
+                  price={product.postAmount}
+                  status={product.postStatus ? product.postStatus : "예약 가능"}
+                  src={imageSrc}
+                />
+              );
+            })}
             </div>
       </div>
     </>
