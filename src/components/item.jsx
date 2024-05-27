@@ -1,27 +1,37 @@
+import axios from "axios";
 import { useEffect, useState } from "react";
 import { FaHeart, FaRegHeart } from "react-icons/fa";
 
-const Items = ({ title, price, status, src }) => {
+const Items = ({ id, period, title, price, status, src }) => {
   const [heart, setHeart] = useState(false)
 
-  useEffect(() => {
-    
+  const heartHandler = async () => {
+    setHeart(!heart)
+  }
+
   
+  useEffect(() => {
     return () => {
-      
+      if(heart) {
+        console.log(id, "하트 누름")
+      } else {
+        console.log(id, "하트 취소")
+      }
     }
   }, [heart])
   
   return (
-      <div className='m-3 shadow-md flex-col text-start font-Pretendard rounded-md border-2 '>
+      <div 
+        className='m-3 shadow-md flex-col text-start font-Pretendard rounded-md border-2 '>
        {/* 상품 이미지 */}
        <div className="justify-center flex">
-        <img className="w-[250px] rounded-t-md" src={src} />
+        <img className="w-[250px] h-[150px] object-cover rounded-t-md" src={src} />
        </div>
         <div className='mx-3 my-2 text-md'>
           {/* 상품 이름 */}
           <p className='font-bold text-md'>{title}</p>
           <p className='font-medium text-sm'>{price}원</p>
+          <p className='font-medium text-sm'>{period}</p>
           
           {/* 상품 상태 */}
           <div className='flex justify-between'>
@@ -43,11 +53,11 @@ const Items = ({ title, price, status, src }) => {
 
              {/* 좋아요 기능 */}
             {heart == false ? ( 
-              <button onClick={() => {setHeart(true)}}>
+              <button onClick={heartHandler}>
                 <FaRegHeart className='w-6 h-6'/>
               </button>
               ) : ( 
-                <button onClick={() => {setHeart(false)}}>
+                <button onClick={heartHandler}>
                   <FaHeart className='w-6 h-6 text-red-500'/>
                 </button>
                 )}

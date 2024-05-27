@@ -4,19 +4,11 @@ import axios from 'axios';
 
 export function MainItems() {
   const [products, setProducts] = useState([]);
-  const [imagePaths, setImagePaths] = useState([]);
 
   const getProducts = async () => {
     try {
       const res = await axios.get("http://localhost:5001/");
       setProducts(res.data);
-      
-      // 이미지 경로만 추출하여 설정
-      const paths = res.data.map((product) => 
-        `http://localhost:5001/images/${product.postImage.fileName}`);
-      
-      setImagePaths(paths);
-
     } catch (error) {
       console.error(error.message);
     }
@@ -24,22 +16,41 @@ export function MainItems() {
 
   useEffect(() => {
     getProducts();
+    console.log(products)
   }, []);
 
+ // 이 부분은 이미지 데이터를 Base64로 변환하는 함수입니다.
+ function arrayBufferToBase64(buffer) {
+  let binary = '';
+  const bytes = new Uint8Array(buffer);
+  const len = bytes.byteLength;
+  for (let i = 0; i < len; i++) {
+    binary += String.fromCharCode(bytes[i]);
+  }
+  return window.btoa(binary);
+}
   return (
     <>
       <div className='flex justify-center'>
         <div className='grid justify-center sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3'>
-          {products.map((product, index) => (
-            <Item 
-              key={index}
-              id={product._id}
-              title={product.postTitle}
-              price={product.postAmount}
-              status={product.status ? status : "default"}
-              src={imagePaths[index]}
-            />
-          ))}
+          {products.map((product, index) => {
+              let imageSrc = '';
+              if (product.postImage && product.postImage.data) {
+                const imageData = product.postImage.data.data;
+                const base64Image = arrayBufferToBase64(imageData);
+                imageSrc = `data:image/${product.postImage.contentType};base64,${base64Image}`;
+              }
+              return (
+                <Item 
+                  key={index}
+                  id={product._id}
+                  title={product.postTitle}
+                  price={product.postAmount}
+                  status={product.postStatus ? product.postStatus : "예약 가능"}
+                  src={imageSrc}
+                />
+              );
+            })}
         </div>
       </div>
     </>

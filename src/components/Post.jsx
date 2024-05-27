@@ -2,19 +2,24 @@ import axios from 'axios'
 import React, { useEffect, useRef, useState } from 'react'
 import { MdAddPhotoAlternate } from "react-icons/md";
 import { useSelector } from 'react-redux';
+import Dropdown from './Dropdown';
 
 const Post = ( { setShowPost } ) => {
   const imageInput = useRef()
+  const [dropdown, setDropdown] = useState(false)
+
     // useSelector로 store의 user state에 접근
   const userID = useSelector((state) => state.user.userID)
-
+  const [amountValue, setAmountValue] = useState('');
+  const [periodValue, setPeriodValue] = useState('');
+  const [period, setPeriod] = useState('주/일/월');
   const [imageData, setImageData] = useState({
     file: null,
     thumbnail: null,
     type: null
   });
 
-
+  
   const [data, setData] = useState({
     userID: userID,
     title: '',
@@ -23,6 +28,13 @@ const Post = ( { setShowPost } ) => {
     content: '',
 })
 
+  const dropdownHandler = () => { setDropdown(!dropdown) }
+  useEffect(() => {
+    setData(pervData=>({...pervData, userID}))
+
+  }, [userID])
+  
+
 
 
   // useRef를 사용하기 위한 Handler
@@ -30,59 +42,43 @@ const Post = ( { setShowPost } ) => {
    imageInput.current.click()
   }
 
-  // fileUpload Handler
-  const fileUploader = (e) => {
-    const file = e.target.files?.[0]; // FileList의 File
-    const url = URL.createObjectURL(file); // url로 생성하기
+  const handleFileUpload = (e) => {
+    const file = e.target.files?.[0];
     if (file) {
-      try {
-        // 이미지 데이터 업데이트
-      const newImageData = {
-        file: file,
-        thumbnail: url,
-        type: file.type.slice(0, 5), 
-      };
-
-       // 이미지 데이터 업데이트 후 setData 호출
-       setData({ ...data});
-       setImageData(newImageData);
-
-      } catch (imageData) {
-        console.log("실패")
-      }
+      const url = URL.createObjectURL(file);
+      setImageData({ file, thumbnail: url, type: file.type.slice(0, 5) });
+      setData(prevData => ({ ...prevData, postImage: file }));
     }
-  }
+  };
   
-
-
-  const postHandler = async () => {
-    console.log(imageData)
-    const formData = new FormData()
-    formData.append("user", data.userID);
-    formData.append("title", data.title);
-    formData.append("amount", data.amount);
-    formData.append("period", data.period);
-    formData.append("content", data.content);
-    if (imageData.file) {
-      formData.append("postImage", imageData.file);
-    }
-
-    // 폼 확인
-    console.log(formData)
-
-
-    setShowPost(false)
-   try {
-    const res = await axios.post('http://localhost:5001/posts', formData, {
-      headers: {
-        "Content-Type": "multipart/form-data"
-      }
-    });
-    console.log(res.data);
-   } catch (error) {
-      console.error(error);
-   }
+  const periodHandler = (e) =>  {
+    setPeriod(e)
+    setData({...data, period: periodValue+e})
+    console.log(periodValue+e)
   }
+  const amountHandler = (e) => {
+    // 정규화로 숫자 콤마 처리
+    const formattedValue = e.target.value.replace(/\D/g, '').replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    setAmountValue(formattedValue);
+    setData({...data, amount: formattedValue})
+  };
+
+
+  const handlePost = async () => {
+    const formData = new FormData();
+    Object.keys(data).forEach(key => formData.append(key, data[key]));
+    if (imageData.file) formData.append("postImage", imageData.file);
+
+    setShowPost(false);
+    try {
+      const res = await axios.post('http://localhost:5001/posts', formData, {
+        headers: { "Content-Type": "multipart/form-data" }
+      });
+      console.log(res.data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
 
 
@@ -114,10 +110,10 @@ const Post = ( { setShowPost } ) => {
                       //  multiple 여러 개의 사진을 넣을 경우 사용
                        className='hidden'
                        accept='image/*' 
-                       onChange={fileUploader} 
+                       onChange={handleFileUpload} 
                        ref={imageInput}/>
+              </div>
             </div>
-          </div>
         <div className='flex flex-col justify-center items-center'>
           <div className='space-y-5 lg:space-y-10 p-5 lg:p-10'>
           {/* 제목 */}
@@ -133,34 +129,52 @@ const Post = ( { setShowPost } ) => {
               <div>
               <span className='text-lg mr-2 font-bold text-slate-700'>금액</span>
               <input 
-                onChange={(e) => setData({...data, amount: e.target.value})}
+                onChange={amountHandler}
+                value={amountValue}
                 type="text"
                 placeholder='금액을 입력하세요'
                 className='border rounded-md px-4 py-1' />
               </div>
           {/* 주 / 일 / 월 */}
-              <div>
+              <div className='flex items-center'>
               <span className='text-lg mr-2 font-bold text-slate-700'>기간</span>
-              <input 
-                onChange={(e) => setData({...data, period: e.target.value})}
-                type="text"
-                placeholder='주 / 일 / 월'
-                className='border rounded-md px-4 py-1' />
+              <input
+                onChange={(e) => setPeriodValue(e.target.value)}
+                className='w-20 mr-2 border rounded-md px-4 py-1'
+                />
+             <div
+              onClick={dropdownHandler}
+              className='border flex justify-center cursor-pointer rounded-md px-4 py-1 bg-slate-400 text-white relative'>
+                <p>{period}</p>
+                  {dropdown && (
+                    <div className='rounded-md p-1 top-9 absolute border-2 bg-white text-slate-400 flex flex-col w-full'>
+                      <p
+                        onClick={() => periodHandler("주")}>주</p>
+                      <p
+                        onClick={() => periodHandler("일")}>일</p>
+                      <p
+                        onClick={() => periodHandler("개월")}>개월</p>
+                    </div>
+                  )}
               </div>
+              </div>
+                
+
           {/* 내용 */}
-              <div>
-              <span className='text-lg mr-2 font-bold text-slate-700'>내용</span>
-              <input 
+              <div className='w-full flex items-center'>
+              <span className='w-auto text-lg mr-2 font-bold text-slate-700'>내용</span>
+              <textarea 
                 onChange={(e) => setData({...data, content: e.target.value})}
                 type="text"
                 placeholder='내용을 입력하세요'
-                className='border rounded-md px-4 py-1' />
+                // 글자 길이 설정
+                maxLength="100"
+                className='border flex-grow resize-none break-all rounded-md px-4 py-1' />
               </div>
-           
           </div>
           <div>
           <button 
-          onClick={postHandler}
+          onClick={handlePost}
           className='border-2 rounded-md text-slate-500 border-slate-500 color-slate-500 py-2 px-8'>
             등록하기</button>
           </div>
