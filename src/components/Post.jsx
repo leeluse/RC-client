@@ -8,22 +8,18 @@ const Post = ( { setShowPost } ) => {
   const imageInput = useRef()
   const [dropdown, setDropdown] = useState(false)
 
-  const dropdownHandler = () => {
-    setDropdown(!dropdown)
-  }
-
-
     // useSelector로 store의 user state에 접근
   const userID = useSelector((state) => state.user.userID)
   const [amountValue, setAmountValue] = useState('');
-
+  const [periodValue, setPeriodValue] = useState('');
+  const [period, setPeriod] = useState('주/일/월');
   const [imageData, setImageData] = useState({
     file: null,
     thumbnail: null,
     type: null
   });
 
-
+  
   const [data, setData] = useState({
     userID: userID,
     title: '',
@@ -32,37 +28,33 @@ const Post = ( { setShowPost } ) => {
     content: '',
 })
 
+  const dropdownHandler = () => { setDropdown(!dropdown) }
+  useEffect(() => {
+    setData(pervData=>({...pervData, userID}))
+
+  }, [userID])
+  
+
+
 
   // useRef를 사용하기 위한 Handler
   const clickHandler = () => {
    imageInput.current.click()
   }
 
-  // fileUpload Handler
-  const fileUploader = (e) => {
-    const file = e.target.files?.[0]; // FileList의 File
-    const url = URL.createObjectURL(file); // url로 생성하기
+  const handleFileUpload = (e) => {
+    const file = e.target.files?.[0];
     if (file) {
-      try {
-        // 이미지 데이터 업데이트
-      const newImageData = {
-        file: file,
-        thumbnail: url,
-        type: file.type.slice(0, 5), 
-      };
-
-       // 이미지 데이터 업데이트 후 setData 호출
-       setData({ ...data});
-       setImageData(newImageData);
-
-      } catch (imageData) {
-        console.log("실패")
-      }
+      const url = URL.createObjectURL(file);
+      setImageData({ file, thumbnail: url, type: file.type.slice(0, 5) });
+      setData(prevData => ({ ...prevData, postImage: file }));
     }
-  }
+  };
   
   const periodHandler = (e) =>  {
-    console.log(+e)
+    setPeriod(e)
+    setData({...data, period: periodValue+e})
+    console.log(periodValue+e)
   }
   const amountHandler = (e) => {
     // 정규화로 숫자 콤마 처리
@@ -71,29 +63,22 @@ const Post = ( { setShowPost } ) => {
     setData({...data, amount: formattedValue})
   };
 
-  const postHandler = async () => {
-    const formData = new FormData()
-    formData.append("user", data.userID);
-    formData.append("title", data.title);
-    formData.append("amount", data.amount);
-    formData.append("period", data.period);
-    formData.append("content", data.content);
-    if (imageData.file) {
-      formData.append("postImage", imageData.file);
-    }
 
-    setShowPost(false)
-   try {
-    const res = await axios.post('http://localhost:5001/posts', formData, {
-      headers: {
-        "Content-Type": "multipart/form-data"
-      }
-    });
-    console.log(res.data);
-   } catch (error) {
+  const handlePost = async () => {
+    const formData = new FormData();
+    Object.keys(data).forEach(key => formData.append(key, data[key]));
+    if (imageData.file) formData.append("postImage", imageData.file);
+
+    setShowPost(false);
+    try {
+      const res = await axios.post('http://localhost:5001/posts', formData, {
+        headers: { "Content-Type": "multipart/form-data" }
+      });
+      console.log(res.data);
+    } catch (error) {
       console.error(error);
-   }
-  }
+    }
+  };
 
 
 
@@ -125,7 +110,7 @@ const Post = ( { setShowPost } ) => {
                       //  multiple 여러 개의 사진을 넣을 경우 사용
                        className='hidden'
                        accept='image/*' 
-                       onChange={fileUploader} 
+                       onChange={handleFileUpload} 
                        ref={imageInput}/>
               </div>
             </div>
@@ -154,19 +139,21 @@ const Post = ( { setShowPost } ) => {
               <div className='flex items-center'>
               <span className='text-lg mr-2 font-bold text-slate-700'>기간</span>
               <input
-                onChange={periodHandler}
+                onChange={(e) => setPeriodValue(e.target.value)}
                 className='w-20 mr-2 border rounded-md px-4 py-1'
                 />
              <div
               onClick={dropdownHandler}
               className='border flex justify-center cursor-pointer rounded-md px-4 py-1 bg-slate-400 text-white relative'>
-                <p>주/일/월</p>
+                <p>{period}</p>
                   {dropdown && (
                     <div className='rounded-md p-1 top-9 absolute border-2 bg-white text-slate-400 flex flex-col w-full'>
                       <p
-                        onClick={periodHandler()}>주</p>
-                      <p>일</p>
-                      <p>월</p>
+                        onClick={() => periodHandler("주")}>주</p>
+                      <p
+                        onClick={() => periodHandler("일")}>일</p>
+                      <p
+                        onClick={() => periodHandler("개월")}>개월</p>
                     </div>
                   )}
               </div>
@@ -187,7 +174,7 @@ const Post = ( { setShowPost } ) => {
           </div>
           <div>
           <button 
-          onClick={postHandler}
+          onClick={handlePost}
           className='border-2 rounded-md text-slate-500 border-slate-500 color-slate-500 py-2 px-8'>
             등록하기</button>
           </div>
