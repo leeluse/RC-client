@@ -8,18 +8,23 @@ const Post = ( { setShowPost } ) => {
   const imageInput = useRef()
   const [dropdown, setDropdown] = useState(false)
 
+  const dropdownHandler = () => {
+    setDropdown(!dropdown)
+  }
+
     // useSelector로 store의 user state에 접근
   const userID = useSelector((state) => state.user.userID)
   const [amountValue, setAmountValue] = useState('');
   const [periodValue, setPeriodValue] = useState('');
   const [period, setPeriod] = useState('주/일/월');
+
   const [imageData, setImageData] = useState({
     file: null,
     thumbnail: null,
     type: null
   });
 
-  
+
   const [data, setData] = useState({
     userID: userID,
     title: '',
@@ -28,28 +33,34 @@ const Post = ( { setShowPost } ) => {
     content: '',
 })
 
-  const dropdownHandler = () => { setDropdown(!dropdown) }
-  useEffect(() => {
-    setData(pervData=>({...pervData, userID}))
-
-  }, [userID])
-  
-
-
 
   // useRef를 사용하기 위한 Handler
   const clickHandler = () => {
    imageInput.current.click()
   }
 
-  const handleFileUpload = (e) => {
-    const file = e.target.files?.[0];
+  // fileUpload Handler
+  const fileUploader = (e) => {
+    const file = e.target.files?.[0]; // FileList의 File
+    const url = URL.createObjectURL(file); // url로 생성하기
     if (file) {
-      const url = URL.createObjectURL(file);
-      setImageData({ file, thumbnail: url, type: file.type.slice(0, 5) });
-      setData(prevData => ({ ...prevData, postImage: file }));
+      try {
+        // 이미지 데이터 업데이트
+      const newImageData = {
+        file: file,
+        thumbnail: url,
+        type: file.type.slice(0, 5), 
+      };
+
+       // 이미지 데이터 업데이트 후 setData 호출
+       setData({ ...data});
+       setImageData(newImageData);
+
+      } catch (imageData) {
+        console.log("실패")
+      }
     }
-  };
+  }
   
   const periodHandler = (e) =>  {
     setPeriod(e)
@@ -63,22 +74,29 @@ const Post = ( { setShowPost } ) => {
     setData({...data, amount: formattedValue})
   };
 
-
-  const handlePost = async () => {
-    const formData = new FormData();
-    Object.keys(data).forEach(key => formData.append(key, data[key]));
-    if (imageData.file) formData.append("postImage", imageData.file);
-
-    setShowPost(false);
-    try {
-      const res = await axios.post('http://localhost:5001/posts', formData, {
-        headers: { "Content-Type": "multipart/form-data" }
-      });
-      console.log(res.data);
-    } catch (error) {
-      console.error(error);
+  const postHandler = async () => {
+    const formData = new FormData()
+    formData.append("user", data.userID);
+    formData.append("title", data.title);
+    formData.append("amount", data.amount);
+    formData.append("period", data.period);
+    formData.append("content", data.content);
+    if (imageData.file) {
+      formData.append("postImage", imageData.file);
     }
-  };
+
+    setShowPost(false)
+   try {
+    const res = await axios.post('http://localhost:5001/posts', formData, {
+      headers: {
+        "Content-Type": "multipart/form-data"
+      }
+    });
+    console.log(res.data);
+   } catch (error) {
+      console.error(error);
+   }
+  }
 
 
 
@@ -110,7 +128,7 @@ const Post = ( { setShowPost } ) => {
                       //  multiple 여러 개의 사진을 넣을 경우 사용
                        className='hidden'
                        accept='image/*' 
-                       onChange={handleFileUpload} 
+                       onChange={fileUploader} 
                        ref={imageInput}/>
               </div>
             </div>
@@ -174,7 +192,7 @@ const Post = ( { setShowPost } ) => {
           </div>
           <div>
           <button 
-          onClick={handlePost}
+          onClick={postHandler}
           className='border-2 rounded-md text-slate-500 border-slate-500 color-slate-500 py-2 px-8'>
             등록하기</button>
           </div>
