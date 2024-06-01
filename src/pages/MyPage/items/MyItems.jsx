@@ -16,7 +16,7 @@ export function MyItems({ category }) {
 
   const myProducts = async () => {
     try {
-      const res = await axios.get(`http://localhost:5001/${endpoint[category]}`, userID) ;
+      const res = await axios.get(`http://localhost:5001/${userID}/${endpoint[category]}`, userID) ;
       if(res.status === 200) {
         console.log(res.data, "데이터 불러오기 성공")
       }
