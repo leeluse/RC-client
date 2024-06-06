@@ -21,6 +21,7 @@ const Nav = ({}) => {
     if(!accessToken) {
       // 로그인 확인
       alert("로그인 후 이용 가능합니다")
+      navigate('/sign-in')
     } else {
       try {
         let res = await axios.get('http://localhost:5001/signin/protected-route', {
@@ -65,10 +66,12 @@ const Nav = ({}) => {
       } catch (error) {
         const { status, data } = error.response;
         if(error.response) {
-          if(status === 403) {
+          if(status === 401) {
             alert("토큰이 만료되었습니다. 다시 로그인해 주세요.")
-          } else {
-            console.log(error.response.message)            
+            navigate('/sign-in')
+          } else if(status === 403) {
+            alert("토큰이 유효하지 않습니다. 다시 로그인해 주세요.")
+            navigate('/sign-in')
           }
         }
       }
@@ -99,24 +102,20 @@ const Nav = ({}) => {
     <>
     <div className='fixed bg-white min-w-full h-[120px] flex items-center 
       justify-center font-[Pretendard] text-medium shadow-md'>
-      <div className='sm:w-4/5 md:w-2/3 lg:w-2/3 flex items-center justify-between px-2'>
+      <div className='sm:w-4/5 md:w-2/3 lg:w-2/3 flex items-center justify-between px-full'>
         
         <div className='w-full flex justify-start'>
         {/*  홈 로고 */}
         <button onClick={() => {navigate('/')}}>
-        <img className="sm:w-24 md:w-35 lg:w-40 lg:mx-2" src="src/assets/logo.svg" alt="alert" />
+        <img className="h-16" src="/src/assets/logo.svg" alt="alert" />
         </button>
         </div>
-        
-
-
-
         <div className='w-full'>
         {/*  검색창 */}
         <div className='rounded-md bg-slate-200 flex pr-2'>
         <input className='w-full outline-none rounded-md text-neutral-500 p-2 bg-slate-200' placeholder='Search Here'/>
         <button className="flex items-center justify-center">
-          <img src="src/assets/search.svg" alt="" style={{ width: '20px', height: '20px' }} /> {/* 아이콘 크기 지정 */}
+          <img src="/src/assets/search.svg" alt="" style={{ width: '20px', height: '20px' }} /> {/* 아이콘 크기 지정 */}
             </button>
           </div>
         </div>

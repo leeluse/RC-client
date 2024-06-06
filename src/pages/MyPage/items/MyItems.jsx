@@ -10,7 +10,7 @@ export function MyItems({ category }) {
 
   const endpoint = {
     "나의 게시물": "mylist",
-    "관심 항목": "likelist",
+    "관심 항목": "bookmarklist",
     "거래 중 항목": "",
   }
 

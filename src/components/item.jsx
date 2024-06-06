@@ -1,28 +1,80 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { FaHeart, FaRegHeart } from "react-icons/fa";
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
-const Items = ({ id, period, title, price, status, src }) => {
-  const [heart, setHeart] = useState(false)
+const Items = ({ productId, period, title, price, status, src, content }) => {
+  const [heart, setHeart] = useState(false);
+  const userID = useSelector((state) => state.user.userID);
+  const navigate = useNavigate();
 
-  const heartHandler = async () => {
-    setHeart(!heart)
-  }
-
-  
   useEffect(() => {
-    return () => {
-      if(heart) {
-        console.log(id, "하트 누름")
-      } else {
-        console.log(id, "하트 취소")
-      }
-    }
   }, [heart])
   
+  const BookmarkHandler = async () => {
+    if(heart === false) {
+      setHeart(true)
+      addBookmark()
+    } else {
+      setHeart(false)
+      deleteBookmark()
+    }
+  }
+
+  const addBookmark = async ( ) => {
+    try {
+      console.log()
+    const res = await axios.post(`http://localhost:5001/${userID}/addBookmark`, {
+      userID: userID, postID: productId
+    })
+      if(res.status === 201) {
+        console.log(res.data.msg);
+      }
+    } catch (error) {
+      const { status, data } = error.response;
+      if(status === 404) {
+        console.log(data.msg)
+      }
+    }
+  }
+
+  const gotoProductsHandler = () => {
+    // useLocation을 사용해 값을 주고 받기
+    navigate(`/products/${productId}`, {
+      state: {
+        productId,
+        period,
+        title,
+        content, 
+        price, 
+        status, 
+        src
+      }
+    })
+    
+  }
+
+  const deleteBookmark = async () => {
+    try {
+      const res = await axios.post(`http://localhost:5001/${userID}/deleteBookmark`, {
+        userID: userID, postID: productId
+      })
+        if(res.status === 200) {
+          console.log(res.data.msg);
+        }
+      } catch (error) {
+        const { status, data } = error.response;
+          if(status === 404) {
+            console.log(data.msg)
+          }
+      }
+  }
+
   return (
       <div 
-        className='m-3 shadow-md flex-col text-start font-Pretendard rounded-md border-2 '>
+        onClick={gotoProductsHandler}
+        className='m-3 cursor-pointer shadow-md flex-col text-start font-Pretendard rounded-md border-2 '>
        {/* 상품 이미지 */}
        <div className="justify-center flex">
         <img className="w-[250px] h-[150px] object-cover rounded-t-md" src={src} />
@@ -52,12 +104,12 @@ const Items = ({ id, period, title, price, status, src }) => {
             </div>
 
              {/* 좋아요 기능 */}
-            {heart == false ? ( 
-              <button onClick={heartHandler}>
+            {heart === false ? ( 
+              <button onClick={BookmarkHandler}>
                 <FaRegHeart className='w-6 h-6'/>
               </button>
               ) : ( 
-                <button onClick={heartHandler}>
+                <button onClick={BookmarkHandler}>
                   <FaHeart className='w-6 h-6 text-red-500'/>
                 </button>
                 )}
