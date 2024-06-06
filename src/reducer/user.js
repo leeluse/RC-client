@@ -6,12 +6,19 @@ const initialState = {
 
 // 액션 타입
 const SET_USER = 'SET_USER';
+const SET_ACCESS_TOKEN = 'SET_ACCESS_TOKEN';
 
-// 액션 생성자
+// user 액션 생성자
 export const setUser = (userID, accessToken) => ({
   type: SET_USER,
   payload: { userID, accessToken }
 });
+// accessToken 액션 생성자
+export const setAccessToken = (accessToken) => ({
+  type: SET_ACCESS_TOKEN,
+  payload: accessToken
+});
+
 
 // 리듀서
 export default function user(state = initialState, action) {
@@ -21,6 +28,11 @@ export default function user(state = initialState, action) {
         ...state,
         ...action.payload
       };
+      case SET_ACCESS_TOKEN:
+        return {
+          ...state,
+          accessToken: action.payload
+        }
     default:
       return state;
   }
