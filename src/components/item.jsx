@@ -11,33 +11,7 @@ const Items = ({ productId, period, title, price, status, src, content }) => {
 
   useEffect(() => {
   }, [heart])
-  
-  const BookmarkHandler = async () => {
-    if(heart === false) {
-      setHeart(true)
-      addBookmark()
-    } else {
-      setHeart(false)
-      deleteBookmark()
-    }
-  }
 
-  const addBookmark = async ( ) => {
-    try {
-      console.log()
-    const res = await axios.post(`http://localhost:5001/${userID}/addBookmark`, {
-      userID: userID, postID: productId
-    })
-      if(res.status === 201) {
-        console.log(res.data.msg);
-      }
-    } catch (error) {
-      const { status, data } = error.response;
-      if(status === 404) {
-        console.log(data.msg)
-      }
-    }
-  }
 
   const gotoProductsHandler = () => {
     // useLocation을 사용해 값을 주고 받기
@@ -54,6 +28,36 @@ const Items = ({ productId, period, title, price, status, src, content }) => {
     })
     
   }
+  const BookmarkHandler = async (event) => {
+      // 이벤트 버블링 막기
+      event.stopPropagation();
+    if(heart === false) {
+      setHeart(true)
+      addBookmark()
+    } else {
+      setHeart(false)
+      deleteBookmark()
+    }
+  }
+
+  const addBookmark = async (   ) => {
+    try {
+      console.log()
+    const res = await axios.post(`http://localhost:5001/${userID}/addBookmark`, {
+      userID: userID, postID: productId
+    })
+      if(res.status === 201) {
+        console.log(res.data.msg);
+      }
+    } catch (error) {
+      const { status, data } = error.response;
+      if(status === 404) {
+        console.log(data.msg)
+      }
+    }
+  }
+
+
 
   const deleteBookmark = async () => {
     try {
@@ -104,18 +108,20 @@ const Items = ({ productId, period, title, price, status, src, content }) => {
             </div>
 
              {/* 좋아요 기능 */}
-            {heart === false ? ( 
+             {heart === false ? ( 
               <button onClick={BookmarkHandler}>
-                <FaRegHeart className='w-6 h-6'/>
+                <FaRegHeart className='abosolute w-6 h-6'/>
               </button>
               ) : ( 
                 <button onClick={BookmarkHandler}>
-                  <FaHeart className='w-6 h-6 text-red-500'/>
+                  <FaHeart className='abosolute w-6 h-6 text-red-500 z-1'/>
                 </button>
                 )}
           </div>
         </div>
     </div>
+
+    
   );
 }
 
