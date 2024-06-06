@@ -5,6 +5,7 @@ import axios from 'axios';
 
 export function MyItems({ category }) {
   const userID = useSelector((state) => state.user.userID);
+  const [bookmark, setBookmark] = useState([]);
 
   const [products, setProducts] = useState([]);
 
@@ -32,7 +33,6 @@ export function MyItems({ category }) {
 
 
 
-
  // 이 부분은 이미지 데이터를 Base64로 변환하는 함수입니다.
  function arrayBufferToBase64(buffer) {
   let binary = '';
@@ -57,12 +57,16 @@ export function MyItems({ category }) {
               }
               return (
                 <Item 
-                  key={index}
-                  id={product._id}
-                  title={product.postTitle}
-                  price={product.postAmount}
-                  status={product.postStatus ? product.postStatus : "예약 가능"}
-                  src={imageSrc}
+                key={index}
+                id={product.userID}
+                productId={product._id}
+                period={product.postPeriod}
+                title={product.postTitle}
+                price={product.postAmount}
+                status={product.postStatus ? product.postStatus : "예약 가능"}
+                src={imageSrc}
+                content={product.postContent}
+                bookmark={true}
                 />
               );
             })}
