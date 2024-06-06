@@ -4,7 +4,7 @@ import Nav from '../../../components/Nav';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { useDispatch  } from 'react-redux'
-import { setUser } from '../../../reducer/user'
+import { setUser, setAccessToken } from '../../../reducer/user'
 
 const SignIn = () => {
   // user 저장을 위한 selector & dispatch
@@ -12,13 +12,14 @@ const SignIn = () => {
   const navigate = useNavigate();
 
   const registerHandler = async (data) => {
-    console.log(data)
     try {
-      const res = await axios.post('http://localhost:5001/signin', data);
+      const res = await axios.post('http://localhost:5001/signin', data, {
+        withCredentials: true // 쿠키 허용
+      });
       if(res.status === 200) {
           console.log("로그인 성공", res.data);
-          // 로컬 스토리지에 userData 저장
-          dispatch(setUser(res.data.userID, res.data.token));
+          dispatch(setUser(res.data.userID));
+          dispatch(setAccessToken(res.data.accessToken));
           navigate("/");
       } 
       else {
