@@ -6,8 +6,7 @@ import LoginPage from './pages/LoginPage'
 import RegisterPage from './pages/RegisterPage'
 import MyPage from './pages/MyPage'
 import Post from './components/Post'
-import { useSelector } from 'react-redux'
-
+import ProductPage from './pages/ProductPage'
 
 function App() {
 
@@ -19,12 +18,7 @@ function App() {
     <Route path='sign-up' element={<RegisterPage />} />
     <Route path='my-page' element={<MyPage />} />
     <Route path='posts' element={<Post />} />
-    
-      {/* <Route path='product/:id' element={<DetailPage />} />
-        <Route path='cart' element={<CartPage />} />
-        <Route path='login' element={<LoginPage />} />
-        <Route path='order' element={<OrderPage />} />
-        <Route path='*' element={<NotFoundPage />} /> */}
+    <Route path='products/:productId' element={<ProductPage />} />
     </Routes>
     )
 }

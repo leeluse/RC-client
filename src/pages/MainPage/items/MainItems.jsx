@@ -43,11 +43,13 @@ export function MainItems() {
               return (
                 <Item 
                   key={index}
-                  id={product._id}
+                  productId={product._id}
+                  period={product.postPeriod}
                   title={product.postTitle}
                   price={product.postAmount}
                   status={product.postStatus ? product.postStatus : "예약 가능"}
                   src={imageSrc}
+                  content={product.postContent}
                 />
               );
             })}
