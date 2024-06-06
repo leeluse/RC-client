@@ -9,7 +9,6 @@ import persistStore from 'redux-persist/es/persistStore';
 import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 import { setAccessToken } from '../reducer/user';
-import { useCookies } from 'react-cookie';
 
 const Nav = ({}) => {
   const [showChat, setShowChat] = useState(false);
@@ -17,15 +16,11 @@ const Nav = ({}) => {
   const persistor = persistStore(store);
   const accessToken = useSelector((state) => state.user.accessToken);
   const dispatch = useDispatch()
-  const [token, setToken] = useState(accessToken)
-
 
   const mypageHandler = async () => {
-    console.log(accessToken)
-
-    if (!accessToken) {
-      alert("로그인을 시도해 주세요");
-      navigate("/sign-in")
+    if(!accessToken) {
+      // 로그인 확인
+      alert("로그인 후 이용 가능합니다")
     } else {
       try {
         let res = await axios.get('http://localhost:5001/signin/protected-route', {
@@ -33,37 +28,49 @@ const Nav = ({}) => {
             'Authorization': `Bearer ${accessToken}`
           }
         });
-        
-        if (res.status === 401) { // 만료된 토큰 처리
-          console.log("토큰이 만료되었습니다")
-          const newToken = await refreshAccessToken();
-          
-          res = await axios.get('http://localhost:5001/signin/protected-route', {
-            headers: {
-              'Authorization': `Bearer ${newToken}`
-            }
-          });
-        } else {
-          console.log(res.data)
-        }
-  
         navigate('/my-page'); // 보호된 라우트 접근 성공 시 페이지 이동
-  
       } catch (error) {
-        console.error('Error:', error);
+        const { status, data } = error.response;
+        if(error.response) {
+          if(status == 401) {
+            alert("토큰을 재발급합니다.")
+            const newToken = await refreshAccessToken();
+
+            // 토큰이 성공적으로 갱신되었을 때 실행
+            if (newToken) {
+              res = await axios.get('http://localhost:5001/signin/protected-route', {
+                headers: {
+                  'Authorization': `Bearer ${newToken}`
+                }
+              });
+              navigate('/my-page'); // 보호된 라우트 접근 성공 시 페이지 이동
+            } else {
+              console.log("토큰 갱신에 실패했습니다");
+            }
+          } else {
+            console.log(error.response.message)            
+          }
+        }
       }
     }
   }
 
     const refreshAccessToken = async () => {
       try {
-        const res = await axios.post('http://localhost:5001/signin/token', {}, {
+        const res = await axios.get('http://localhost:5001/signin/token', {
           withCredentials: true // 쿠키를 포함하여 요청
         });
         dispatch(setAccessToken(res.data.accessToken));
         return res.data.accessToken
       } catch (error) {
-        console.error();
+        const { status, data } = error.response;
+        if(error.response) {
+          if(status === 403) {
+            alert("토큰이 만료되었습니다. 다시 로그인해 주세요.")
+          } else {
+            console.log(error.response.message)            
+          }
+        }
       }
     }
 
@@ -74,7 +81,7 @@ const Nav = ({}) => {
     const res = await axios.get("http://localhost:5001/signin/logout" , {
       withCredentials: true // 쿠키를 포함하여 요청
     })
-    alert("쿠키 삭제 완료!")
+    alert("쿠키 삭제 완료!", res)
     // redux-persist store 내의 데이터 삭제
     persistor.purge();
     navigate('/sign-in');
@@ -87,7 +94,6 @@ const Nav = ({}) => {
   useEffect(() => {
 
   }, [showChat])
-
 
   return (
     <>
@@ -129,4 +135,4 @@ const Nav = ({}) => {
   )
 }
 
-export default Nav
+export default Nav;
