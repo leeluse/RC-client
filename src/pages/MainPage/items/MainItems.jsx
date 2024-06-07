@@ -9,6 +9,7 @@ export function MainItems() {
   const userID = useSelector((state) => state.user.userID);
   const endpoint = "bookmarklist";
 
+
   const getProducts = async () => {
     try {
       const res = await axios.get("http://localhost:5001/");
@@ -32,9 +33,14 @@ export function MainItems() {
   };
 
   useEffect(() => {
-    getProducts();
-    getBookmark();
+    const fetchData = async () => {
+      await getBookmark();
+      getProducts();
+    };
+  
+    fetchData();
   }, []);
+  
 
   // 이미지 데이터를 Base64로 변환하는 함수
   function arrayBufferToBase64(buffer) {
