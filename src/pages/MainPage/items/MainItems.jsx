@@ -62,6 +62,7 @@ export function MainItems() {
             return (
               <Item 
                 key={index}
+                name={product.userName}
                 id={product.userID}
                 productId={product._id}
                 period={product.postPeriod}
