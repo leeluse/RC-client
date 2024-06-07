@@ -9,9 +9,9 @@ const Items = ({ productId, name, id, period, title, price, status, src, content
   const userID = useSelector((state) => state.user.userID);
   const navigate = useNavigate();
 
+ 
   useEffect(() => {
     // 상태가 변경될 때 필요한 작업
-    console.log(productId, ": ", isBookmarked)
   }, [isBookmarked]);
 
   const gotoProductsHandler = () => {

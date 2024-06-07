@@ -29,7 +29,9 @@ export function MyItems({ category }) {
     myProducts();
   }, [category])
 
-
+  useEffect(() => {
+    myProducts();
+  }, [])
 
  // 이 부분은 이미지 데이터를 Base64로 변환하는 함수입니다.
  function arrayBufferToBase64(buffer) {

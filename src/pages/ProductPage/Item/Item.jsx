@@ -1,18 +1,24 @@
-import React from 'react'
-import { useLocation, useNavigate, useParams } from 'react-router-dom'
+import React, { useEffect, useState } from 'react'
+import { useLocation, useNavigate } from 'react-router-dom'
 import { IoPersonCircleOutline } from "react-icons/io5";
 import { useSelector } from 'react-redux';
 import axios from 'axios';
 
-const ProductPage = () => {
+const ProductPage = ({ setShowEdit }) => {
   // useLocation을 사용해 값을 주고 받기
   const location = useLocation()
   const { period, name, id, title, content, price, status, src } = location.state || {}
   const navigate = useNavigate()
   const userID = useSelector((state) => state.user.userID)
-  
-  console.log(name)
 
+  useEffect(() => {
+    
+  
+    return () => {
+      
+    }
+  }, [location.state])
+  
 
   const chatHandler = async () => {
     const postUserId = id
@@ -29,11 +35,10 @@ const ProductPage = () => {
     } catch (error) {
       console.error()
     }
-
   }
 
   return (
-    <div className='w-full h-full flex items-center justify-center font-Pretendard'>
+    <div className='w-full h-full sm:flex items-center justify-center font-Pretendard'>
       <div 
         className='m-3 shadow-md text-start font-Pretendard rounded-md border-2 '>
        {/* 상품 이미지 */}
@@ -41,13 +46,17 @@ const ProductPage = () => {
         <img className="w-[350px] h-[350px] object-cover rounded-t-md" src={src} />
        </div>
       </div>
-      <div className='flex flex-col  px-10 '>
+      <div className='flex flex-col max-w-[400px] w-full px-10 '>
+        {/* 뒤로 가기 */}
+        <div className='flex justify-center items-center'>
         <button
         onClick={() => navigate('/')} 
-        className=' text-md text-slate-600 font-semibord py-2 border-2 
-        border-slate-400 rounded-md px-10 my-5'>
-          Back To All Products</button>
-
+        className='w-2/3 text-md text-slate-600 font-semibord py-2 border-2
+        border-slate-400 rounded-md my-5 '>
+          Back To All Products
+            </button>
+        </div>
+          {/* 사용자 이름 */}
           <div className='gap-2 pb-2 text-gray-600 flex items-center'>
           <IoPersonCircleOutline className='h-10 w-10' />
           <span>{name}</span>
@@ -72,15 +81,28 @@ const ProductPage = () => {
 
             </div>
             <div className='text-gray-800 font-bold text-3xl py-2 '>{title}</div>
+            {/* 가격 */}
             <span>{price}원/{period}</span>
+            {/* 내용 */}
             <span>{content}</span>
 
-            <button 
-            onClick={chatHandler}
-            className='bg-indigo-400 text-lg text-white font-semibord py-2 border-2 
-        border-indigo-300  rounded-3xl px-10 my-20'>
-          채팅하기</button>
-
+            { id !== userID ? (
+              <div className='flex justify-center items-center py-10'>
+               <button 
+                  onClick={chatHandler}
+                  className='w-2/3 bg-indigo-400 text-lg text-white font-semibord py-2 border-2 
+                  border-indigo-300  rounded-3xl my-10'>
+                  채팅하기</button>
+              </div>
+            ) : (
+              <div className='flex justify-center items-center py-10'>
+               <button 
+                  onClick={() => setShowEdit(true)}
+                  className='w-2/3 bg-yellow-400 text-lg text-white font-semibord py-2 border-2 
+                  border-yellow-300  rounded-3xl my-10'>
+                  수정하기</button>
+              </div>
+            )}
       </div>
     </div>
   )
