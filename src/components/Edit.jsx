@@ -66,7 +66,6 @@ const Edit = ({  }) => {
   const periodHandler = (e) => {
     setPeriod(e);
     setData({ ...data, period: periodValue + e });
-    console.log(periodValue + e);
   }
 
   const amountHandler = (e) => {
@@ -119,8 +118,8 @@ const Edit = ({  }) => {
                     className='text-slate-800 h-12 w-12 lg:h-20 cursor-pointer'/>
                 </div>
               ) : (
-                <div className='flex  rounded-md order-2 w-40 h-40 lg:h-60 lg:w-60 shadow-xl border-slate-400'>
-                  <img onClick={clickHandler} className='rounded-md cursor-pointer object-cover' src={`${imageData.thumbnail}`} alt='thumbnail' />   
+                <div className='flex rounded-md order-2 w-40 h-40 lg:h-60 lg:w-60 shadow-xl border-slate-400'>
+                  <img onClick={clickHandler} className='w-full h-full rounded-md cursor-pointer object-cover' src={`${imageData.thumbnail}`} alt='thumbnail' />   
                 </div>
               )}
               <input type="file"

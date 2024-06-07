@@ -111,11 +111,11 @@ const Post = ({ setShowPost }) => {
                 <div className='flex justify-center items-center rounded-md  w-40 h-40 lg:h-60 lg:w-60 border-2 shadow-xl border-slate-400'>
                   <MdAddPhotoAlternate 
                     onClick={clickHandler}
-                    className='text-slate-800 h-12 w-12 lg:h-20 cursor-pointer'/>
+                    className='text-slate-800 h-12 w-12 lg:h-20 cursor-pointer '/>
                 </div>
               ) : (
-                <div className='flex  rounded-md order-2 w-40 h-40 lg:h-60 lg:w-60 shadow-xl border-slate-400'>
-                  <img onClick={clickHandler} className='rounded-md cursor-pointer object-cover' src={`${imageData.thumbnail}`} alt='thumbnail' />   
+                <div className='flex rounded-md order-2 w-40 h-40 lg:h-60 lg:w-60 shadow-xl border-slate-400'>
+                  <img onClick={clickHandler} className='w-full h-full rounded-md cursor-pointer object-cover' src={`${imageData.thumbnail}`} alt='thumbnail' />   
                 </div>
               )}
               <input type="file"
