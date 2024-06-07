@@ -14,6 +14,13 @@ const Items = ({ productId, name, id, period, title, price, status, src, content
     // 상태가 변경될 때 필요한 작업
   }, [isBookmarked]);
 
+
+  useEffect(() => {
+    
+  
+
+  }, [])
+  
   const gotoProductsHandler = () => {
     navigate(`/products/${productId}`, {
       state: {

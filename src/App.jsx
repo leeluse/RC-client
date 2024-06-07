@@ -7,6 +7,7 @@ import RegisterPage from './pages/RegisterPage'
 import MyPage from './pages/MyPage'
 import Post from './components/Post'
 import ProductPage from './pages/ProductPage'
+import EditPage from './pages/EditPage'
 
 function App() {
 
@@ -19,6 +20,7 @@ function App() {
     <Route path='my-page' element={<MyPage />} />
     <Route path='posts' element={<Post />} />
     <Route path='products/:productId' element={<ProductPage />} />
+    <Route path='edit/:productId' element={<EditPage />} />
     </Routes>
     )
 }

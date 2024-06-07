@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react'
-import { useLocation, useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import { IoPersonCircleOutline } from "react-icons/io5";
 import { useSelector } from 'react-redux';
 import axios from 'axios';
 
-const ProductPage = ({ setShowEdit }) => {
+const ProductPage = ({  }) => {
+  const {productId} = useParams()
   // useLocation을 사용해 값을 주고 받기
   const location = useLocation()
   const { period, name, id, title, content, price, status, src } = location.state || {}
@@ -96,12 +97,26 @@ const ProductPage = ({ setShowEdit }) => {
               </div>
             ) : (
               <div className='flex justify-center items-center py-10'>
-               <button 
-                  onClick={() => setShowEdit(true)}
-                  className='w-2/3 bg-yellow-400 text-lg text-white font-semibord py-2 border-2 
-                  border-yellow-300  rounded-3xl my-10'>
-                  수정하기</button>
-              </div>
+                  <button 
+                    onClick={() => navigate(`/edit/${productId}`, {
+                      state: {
+                        id,
+                        name,
+                        productId,
+                        period,
+                        title,
+                        content,
+                        price,
+                        status,
+                        src,
+                        // bookmark: isBookmarked
+                      }
+                    })}
+                    className='w-2/3 bg-yellow-400 text-lg text-white font-semibord py-2 border-2 
+                    border-yellow-300  rounded-3xl my-10'>
+                    수정하기
+                  </button>
+                </div>
             )}
       </div>
     </div>

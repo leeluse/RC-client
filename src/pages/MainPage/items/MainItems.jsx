@@ -9,6 +9,7 @@ export function MainItems() {
   const userID = useSelector((state) => state.user.userID);
   const endpoint = "bookmarklist";
 
+
   const getProducts = async () => {
     try {
       const res = await axios.get("http://localhost:5001/");

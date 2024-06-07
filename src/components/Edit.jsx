@@ -2,19 +2,21 @@ import axios from 'axios';
 import React, { useRef, useState } from 'react';
 import { MdAddPhotoAlternate } from "react-icons/md";
 import { useSelector } from 'react-redux';
-import { useLocation, useParams } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 
-const Edit = ({ setShowPost }) => {
-  const { productId } = useParams()
+const Edit = ({  }) => {
+  const { productId } = useParams();
   const imageInput = useRef();
-  const location = useLocation()
+  const location = useLocation();
   const [dropdown, setDropdown] = useState(false);
-  const { name, id, title,content, price, status, src } = location.state || {}
-  
-  const initPeriod = location.state.period
+  const navigate = useNavigate()
+  const { name, id, title, content, price, status, src } = location.state || {};
+  const initPeriod = location.state.period;
+
   const dropdownHandler = () => {
     setDropdown(!dropdown);
   }
+
   // Obtain userID from Redux state
   const userID = useSelector((state) => state.user.userID);
 
@@ -73,29 +75,35 @@ const Edit = ({ setShowPost }) => {
     setData({ ...data, amount: formattedValue });
   };
 
-  const postHandler = async () => {
+  const editHandler = async (e) => {
+    e.preventDefault(); // 기본 동작 막기
     const formData = new FormData();
     formData.append("userID", userID);
     formData.append("title", data.title);
     formData.append("amount", data.amount);
     formData.append("period", data.period);
     formData.append("content", data.content);
+    formData.append("obj", productId); // Ensure productId is included
+  
     if (imageData.file) {
       formData.append("postImage", imageData.file);
     }
-
     try {
-      const res = await axios.post('http://localhost:5001/editpost', formData, {
+      const res = await axios.post(`http://localhost:5001/editpost/${productId}`, formData, {
         headers: {
           "Content-Type": "multipart/form-data"
         }
       });
-      console.log(res.data);
-      setShowPost(false);
+      if(res.status === 200) {
+        console.log(res.data);
+        navigate('/')
+        // navigate(`/products/${productId}`)
+      }
     } catch (error) {
       console.error("Error posting data:", error.response ? error.response.data : error.message);
     }
   }
+  
 
   return (
     <div className='w-full h-full flex justify-center items-center'>
@@ -175,7 +183,7 @@ const Edit = ({ setShowPost }) => {
             </div>
             <div>
               <button 
-                onClick={postHandler}
+                onClick={editHandler}
                 className='border-2 rounded-md text-slate-500 border-slate-500 color-slate-500 py-2 px-8'>
                 수정하기</button>
             </div>
