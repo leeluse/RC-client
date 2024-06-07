@@ -4,7 +4,7 @@ import { FaHeart, FaRegHeart } from "react-icons/fa";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
-const Items = ({ productId, id, period, title, price, status, src, content, bookmark }) => {
+const Items = ({ productId, name, id, period, title, price, status, src, content, bookmark }) => {
   const [isBookmarked, setIsBookmarked] = useState(bookmark);
   const userID = useSelector((state) => state.user.userID);
   const navigate = useNavigate();
@@ -18,6 +18,7 @@ const Items = ({ productId, id, period, title, price, status, src, content, book
     navigate(`/products/${productId}`, {
       state: {
         id,
+        name,
         productId,
         period,
         title,
@@ -84,7 +85,7 @@ const Items = ({ productId, id, period, title, price, status, src, content, book
       <div className="justify-center flex">
         <img className="w-[250px] h-[150px] object-cover rounded-t-md" src={src} alt={title} />
       </div>
-      <div className='mx-3 my-2 text-md'>
+      <div className='px-3 py-2 text-md w-[250px]'>
         {/* 상품 이름 */}
         <p className='font-bold text-md'>{title}</p>
         <p className='font-medium text-sm'>{price}원</p>

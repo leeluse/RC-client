@@ -16,6 +16,27 @@ const Nav = ({}) => {
   const persistor = persistStore(store);
   const accessToken = useSelector((state) => state.user.accessToken);
   const dispatch = useDispatch()
+  const [chatData, setChatData] = useState([])
+  const userID = useSelector((state) => state.user.userID);
+
+  const getList = async () => {
+    try {
+      const res = await axios.get(`http://localhost:5001/getlistroom/${userID}`);
+      if(res.status === 200){
+        setChatData(res.data)
+        console.log(res.data)
+      }
+    setShowChat(true)
+    } catch (error) {
+      const { status, data } = error.response;
+      if (status === 500) {
+        console.log(data.msg);
+      }
+    }
+  }
+
+
+
 
   const mypageHandler = async () => {
     if(!accessToken) {
@@ -121,7 +142,7 @@ const Nav = ({}) => {
         </div>
         
         <div className='w-full flex justify-end items-center sm:gap-1 lg:gap-3'>
-            <IoChatbubbleEllipses onClick={() => {setShowChat(true)}} className='w-9 h-9 cursor-pointer'/>
+            <IoChatbubbleEllipses onClick={getList} className='w-9 h-9 cursor-pointer'/>
             {/* 마이페이지 이동 */}
             <IoPersonCircleSharp  onClick={mypageHandler} className='w-10 h-10 cursor-pointer'/>
             <IoLogOut onClick={signoutHandler} className='w-11 h-11 cursor-pointer'/>
@@ -129,7 +150,7 @@ const Nav = ({}) => {
         
       </div>
     </div>
-    <Chat showChat={showChat} setShowChat={setShowChat} />
+    <Chat showChat={showChat} chatData={chatData} setShowChat={setShowChat} />
     </>
   )
 }

@@ -2,20 +2,34 @@ import React from 'react'
 import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import { IoPersonCircleOutline } from "react-icons/io5";
 import { useSelector } from 'react-redux';
+import axios from 'axios';
 
 const ProductPage = () => {
   // useLocation을 사용해 값을 주고 받기
   const location = useLocation()
-  const { period, id, title, content, price, status, src } = location.state || {}
+  const { period, name, id, title, content, price, status, src } = location.state || {}
   const navigate = useNavigate()
   const userID = useSelector((state) => state.user.userID)
   
+  console.log(name)
 
 
-
-  const chatHandler = () => {
+  const chatHandler = async () => {
     const postUserId = id
-    console.log(userID, postUserId, "두 사람의 채팅방을 만듭니다")
+    console.log(userID, postUserId, title, "두 사람의 채팅방을 만듭니다")
+    try {
+      const res = await axios.post("http://localhost:5001/createroom", {
+        myid: userID,
+        postid: postUserId,
+        postTitle:title,
+      });
+      if(res.status === 200) {
+        console.log(res.data)
+      }
+    } catch (error) {
+      console.error()
+    }
+
   }
 
   return (
@@ -36,7 +50,7 @@ const ProductPage = () => {
 
           <div className='gap-2 pb-2 text-gray-600 flex items-center'>
           <IoPersonCircleOutline className='h-10 w-10' />
-          <span>{id}</span>
+          <span>{name}</span>
           </div>
           <hr className='p-2'/>
           <div className='flex justify-between'>
@@ -57,7 +71,7 @@ const ProductPage = () => {
             </div>
 
             </div>
-            <div className='text-gray-800 font-bold text-3xl py-2'>{title}</div>
+            <div className='text-gray-800 font-bold text-3xl py-2 '>{title}</div>
             <span>{price}원/{period}</span>
             <span>{content}</span>
 
