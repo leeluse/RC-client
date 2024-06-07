@@ -74,6 +74,24 @@ const Edit = ({  }) => {
     setData({ ...data, amount: formattedValue });
   };
 
+  const deleteHandler = async (e) => {
+    e.preventDefault(); // 기본 동작 막기
+    try {
+      const res = await axios.post(`http://localhost:5001/deletepost/${productId}`, {
+        userID: userID,
+        productId: productId
+      } 
+      );
+      if(res.status === 200) {
+        console.log(res.data);
+        navigate('/')
+        // navigate(`/products/${productId}`)
+      }
+    } catch (error) {
+      console.error("Error posting data:", error.response ? error.response.data : error.message);
+    }
+  }
+
   const editHandler = async (e) => {
     e.preventDefault(); // 기본 동작 막기
     const formData = new FormData();
@@ -169,7 +187,7 @@ const Edit = ({  }) => {
                   )}
                 </div>
               </div>
-              <div className='w-full flex items-center'>
+              <div className='w-full flex items-center '>
                 <span className='w-auto text-lg mr-2 font-bold text-slate-700'>내용</span>
                 <textarea 
                   onChange={(e) => setData({...data, content: e.target.value})}
@@ -180,11 +198,15 @@ const Edit = ({  }) => {
                   className='border flex-grow resize-none break-all rounded-md px-4 py-1' />
               </div>
             </div>
-            <div>
+            <div className=''>
               <button 
                 onClick={editHandler}
-                className='border-2 rounded-md text-slate-500 border-slate-500 color-slate-500 py-2 px-8'>
+                className='border-2 mr-2 rounded-md text-slate-500 border-slate-500 color-slate-500 py-2 px-8'>
                 수정하기</button>
+                <button 
+                onClick={deleteHandler}
+                className='border-2 rounded-md text-slate-500 border-slate-500 color-slate-500 py-2 px-8'>
+                삭제</button>
             </div>
           </div>
         </form>
