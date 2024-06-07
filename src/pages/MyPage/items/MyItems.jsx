@@ -5,8 +5,6 @@ import axios from 'axios';
 
 export function MyItems({ category }) {
   const userID = useSelector((state) => state.user.userID);
-  const [bookmark, setBookmark] = useState([]);
-
   const [products, setProducts] = useState([]);
 
   const endpoint = {
@@ -75,4 +73,3 @@ export function MyItems({ category }) {
     </>
   )  
 }
-
