@@ -11,7 +11,7 @@ const Items = ({ productId, id, period, title, price, status, src, content, book
 
   useEffect(() => {
     // 상태가 변경될 때 필요한 작업
-    console.log(isBookmarked)
+    console.log(productId, ": ", isBookmarked)
   }, [isBookmarked]);
 
   const gotoProductsHandler = () => {
