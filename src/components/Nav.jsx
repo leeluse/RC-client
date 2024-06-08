@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { IoChatbubbleEllipses  } from "react-icons/io5";
 import { IoPersonCircleSharp } from "react-icons/io5";
-import Chat from './Chat';
+import Chat from './Chat/Chat';
 import {  useNavigate } from 'react-router-dom';
 import { IoLogOut } from "react-icons/io5";
 import { store } from '../reducer/store';
@@ -10,7 +10,7 @@ import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 import { setAccessToken } from '../reducer/user';
 
-const Nav = ({}) => {
+const Nav = ({ }) => {
   const [showChat, setShowChat] = useState(false);
   const navigate = useNavigate();
   const persistor = persistStore(store);
@@ -34,9 +34,6 @@ const Nav = ({}) => {
       }
     }
   }
-
-
-
 
   const mypageHandler = async () => {
     if(!accessToken) {

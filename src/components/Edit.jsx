@@ -1,5 +1,5 @@
 import axios from 'axios';
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { MdAddPhotoAlternate } from "react-icons/md";
 import { useSelector } from 'react-redux';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
@@ -17,6 +17,7 @@ const Edit = ({  }) => {
     setDropdown(!dropdown);
   }
 
+  
   // Obtain userID from Redux state
   const userID = useSelector((state) => state.user.userID);
 
@@ -84,8 +85,7 @@ const Edit = ({  }) => {
       );
       if(res.status === 200) {
         console.log(res.data);
-        navigate('/')
-        // navigate(`/products/${productId}`)
+        navigate(`/`)
       }
     } catch (error) {
       console.error("Error posting data:", error.response ? error.response.data : error.message);
@@ -112,9 +112,8 @@ const Edit = ({  }) => {
         }
       });
       if(res.status === 200) {
-        console.log(res.data);
-        navigate('/')
-        // navigate(`/products/${productId}`)
+        console.log(res.data);       
+        navigate(`/products/${productId}`)
       }
     } catch (error) {
       console.error("Error posting data:", error.response ? error.response.data : error.message);
