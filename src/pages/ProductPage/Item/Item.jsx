@@ -5,7 +5,7 @@ import { IoPersonCircleOutline } from "react-icons/io5";
 import { useSelector } from 'react-redux';
 import axios from 'axios';
 import { FaSpinner } from "react-icons/fa";
-import Chat from '../../../components/Chat/Chat';
+import ChatMain from '../../../components/Chat/ChatMain';
 
 const Item = () => {
   const [product, setProduct] = useState(null);

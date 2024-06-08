@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { IoChatbubbleEllipses  } from "react-icons/io5";
 import { IoPersonCircleSharp } from "react-icons/io5";
-import Chat from './Chat/Chat';
+import ChatMain from './Chat/ChatMain';
 import {  useNavigate } from 'react-router-dom';
 import { IoLogOut } from "react-icons/io5";
 import { store } from '../reducer/store';
@@ -147,7 +147,7 @@ const Nav = ({ }) => {
         
       </div>
     </div>
-    <Chat showChat={showChat} chatData={chatData} setShowChat={setShowChat} />
+    <ChatMain showChat={showChat} chatData={chatData} setShowChat={setShowChat} />
     </>
   )
 }

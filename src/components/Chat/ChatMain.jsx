@@ -1,16 +1,19 @@
 import React, { useEffect, useState } from 'react';
 import { IoArrowBackOutline, IoPersonCircleOutline } from "react-icons/io5";
-import ChatDetail from './ChatDetail';
+import ChatRoom from './ChatRoom';
+import { useSelector } from 'react-redux';
 
-const Chat = ({ showChat, setShowChat, chatData }) => {
+const ChatMain = ({ showChat, setShowChat, chatData }) => {
   const [chatUsers, setChatUsers] = useState([]);
   const [selectedUser, setSelectedUser] = useState(null);
+  const userID = useSelector((state)=> state.user.userID)
 
   useEffect(() => {
     const users = chatData.map(v => ({
-      chatID: v._id,
-      userID: v.postUser_ID.user_ID,
-      name: v.postUser_ID.user_Name,
+      roomID: v._id,
+      userID: userID,
+      postUserID: v.postUser_ID.user_ID,
+      postUserName: v.postUser_ID.user_Name,
       item: v.roomName,
     }));
     setChatUsers(users);
@@ -23,6 +26,8 @@ const Chat = ({ showChat, setShowChat, chatData }) => {
       setShowChat(false);
     }
   };
+
+
 
   return (
     <>
@@ -47,9 +52,10 @@ const Chat = ({ showChat, setShowChat, chatData }) => {
                     )}
                   </div>
                 </div>
-                <div className='flex-col bg-slta overflow-hidden scrollbar-hide h-full p-2'>
+                <div className='flex-col bg-slta overflow-auto scrollbar-hide h-full p-2'>
                   {selectedUser ? (
-                    <ChatDetail user={selectedUser} />
+                    <ChatRoom  users={selectedUser}  />
+                    // userId={selectedUser.userID} roomId={selectedUser.roomID} userName={selectedUser.name}
                   ) : (
                     chatUsers.map((user, index) => (
                       <div 
@@ -60,8 +66,8 @@ const Chat = ({ showChat, setShowChat, chatData }) => {
                           <div className='flex items-center gap-5'>
                             <IoPersonCircleOutline className='min-w-10 min-h-10' />
                             <div className='flex flex-col max-w-60 mr-10'>
-                              <p className='text-[20px]'>{user.name}</p>
-                              <p className='text-[15px]'>{user.item}</p>
+                              <p className='text-md'>{user.postUserName}</p>
+                              <p className='text-sm font-medium'>{user.item}</p>
                             </div>
                           </div>
                           <div className='text-right'>
@@ -82,4 +88,4 @@ const Chat = ({ showChat, setShowChat, chatData }) => {
   );
 };
 
-export default Chat;
+export default ChatMain;
