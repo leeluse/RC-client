@@ -42,11 +42,11 @@ const ChatMain = ({ showChat, setShowChat, chatData }) => {
                     <IoArrowBackOutline className='h-8 w-8' />
                   </button>
                   <div className='flex flex-col mx-1'>
-                    <p className='font-[Pretendard] text-[28px] font-bold'>
+                    <p className='font-Pretendard text-[28px] font-bold'>
                       {selectedUser ? selectedUser.name : "채팅하기"}
                     </p>
                     {selectedUser && (
-                      <p className='text-sm font-[Pretendard] max-w-60 pr-10'>
+                      <p className='text-sm font-Pretendard max-w-60 pr-10'>
                         {selectedUser.item}
                       </p>
                     )}
