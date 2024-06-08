@@ -10,7 +10,7 @@ import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 import { setAccessToken } from '../reducer/user';
 
-const Nav = ({}) => {
+const Nav = ({ }) => {
   const [showChat, setShowChat] = useState(false);
   const navigate = useNavigate();
   const persistor = persistStore(store);
@@ -34,9 +34,6 @@ const Nav = ({}) => {
       }
     }
   }
-
-
-
 
   const mypageHandler = async () => {
     if(!accessToken) {

@@ -1,49 +1,59 @@
-import React, { useEffect, useState } from 'react'
-import { useNavigate, useParams } from 'react-router-dom'
+// Item 컴포넌트
+import React, { useEffect, useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 import { IoPersonCircleOutline } from "react-icons/io5";
 import { useSelector } from 'react-redux';
 import axios from 'axios';
 import { FaSpinner } from "react-icons/fa";
+import Chat from '../../../components/Chat/Chat';
 
-const ProductPage = () => {
+const Item = () => {
   const [product, setProduct] = useState(null);
   const { productId } = useParams();
   const navigate = useNavigate();
   const userID = useSelector((state) => state.user.userID);
+  const [showChat, setShowChat] = useState(false);
 
   const getProducts = async () => {
     try {
       const res = await axios.post(`http://localhost:5001/posts/${productId}`, { productId });
       if (res.status === 200) {
-        setProduct(res.data);
+        const fetchedProduct = res.data;
+        setProduct({
+          ...fetchedProduct,
+          status: fetchedProduct.status ? fetchedProduct.status : "예약 가능"
+        });
       }
     } catch (error) {
       console.error(error.message);
     }
   };
 
+ 
   useEffect(() => {
     getProducts();
   }, [productId]);
 
+
+
+
   const chatHandler = async () => {
     const postUserId = product.userID;
-    console.log(userID, postUserId, product.postTitle, "두 사람의 채팅방을 만듭니다");
     try {
       const res = await axios.post("http://localhost:5001/createroom", {
         myid: userID,
         postid: postUserId,
         postTitle: product.postTitle,
       });
-      if (res.status === 200) {
-        console.log(res.data);
+      if(res.status === 200) {
+        console.log(res)
+        alert("채팅방이 성공적으로 생성되었습니다.")
       }
     } catch (error) {
       console.error(error.response ? error.response.data : error.message);
     }
-  }
+  };
 
-  // 이 부분은 이미지 데이터를 Base64로 변환하는 함수입니다.
   const arrayBufferToBase64 = (buffer) => {
     let binary = '';
     const bytes = new Uint8Array(buffer);
@@ -52,22 +62,17 @@ const ProductPage = () => {
       binary += String.fromCharCode(bytes[i]);
     }
     return window.btoa(binary);
-  }
+  };
 
   if (!product) {
     return (
-      <div className='relative flex items-center justify-center  top-80'>
-        <div className='flex items-center gap-2 justify-center rounded-lg px-5 py-2
-        text-white bg-indigo-500'>
-        <FaSpinner className='animate-spin' />
-        <p 
-        className="text-lg shadow-sm " disabled>
-          Processing...
-        </p>
+      <div className='relative flex items-center justify-center top-80'>
+        <div className='flex items-center gap-2 justify-center rounded-lg px-5 py-2 text-white bg-indigo-500'>
+          <FaSpinner className='animate-spin' />
+          <p className="text-lg shadow-sm" disabled>Processing...</p>
         </div>
       </div>
-    
-    )
+    );
   }
 
   let imageSrc = '';
@@ -90,8 +95,7 @@ const ProductPage = () => {
         <div className='flex justify-center items-center'>
           <button
             onClick={() => navigate('/')}
-            className='w-2/3 text-md text-slate-600 font-semibord py-2 border-2
-            border-slate-400 rounded-md my-5'>
+            className='w-2/3 text-md text-slate-600 font-semibord py-2 border-2 border-slate-400 rounded-md my-5'>
             Back To All Products
           </button>
         </div>
@@ -103,18 +107,14 @@ const ProductPage = () => {
         <hr className='p-2' />
         <div className='flex justify-between'>
           <div className='inline-block'>
-            <div className='flex items-center gap-2 border-2 px-2
-            my-2 justify-center rounded-2xl text-slate-700 border-slate-500'>
-              <p className="font-medium text-sm">{product.postStatus ? product.postStatus : "예약 가능"}</p>
+            <div className='flex items-center gap-2 border-2 px-2 my-2 justify-center rounded-2xl text-slate-700 border-slate-500'>
+              <p className="font-medium text-sm">{product.status}</p>
               {/* 예약 가능 상태 */}
-              {product.postStatus === '예약 가능' && (
-                <p className="w-3 h-3 rounded-2xl bg-green-300"></p>)}
+              {product.status === '예약 가능' && <p className="w-3 h-3 rounded-2xl bg-green-300"></p>}
               {/* 예약 중 상태 */}
-              {product.postStatus === '예약 중' && (
-                <p className="w-3 h-3 rounded-2xl bg-amber-500"></p>)}
+              {product.status === '예약 중' && <p className="w-3 h-3 rounded-2xl bg-amber-500"></p>}
               {/* 렌탈 중 상태 */}
-              {product.postStatus === '렌탈 중' && (
-                <p className="w-3 h-3 rounded-2xl bg-rose-600"></p>)}
+              {product.status === '렌탈 중' && <p className="w-3 h-3 rounded-2xl bg-rose-600"></p>}
             </div>
           </div>
         </div>
@@ -128,9 +128,9 @@ const ProductPage = () => {
           <div className='flex justify-center items-center py-10'>
             <button
               onClick={chatHandler}
-              className='w-2/3 bg-indigo-400 text-lg text-white font-semibord py-2 border-2 
-              border-indigo-300  rounded-3xl my-10'>
-              채팅하기</button>
+              className='w-2/3 bg-indigo-400 text-lg text-white font-semibord py-2 border-2 border-indigo-300 rounded-3xl my-10'>
+              채팅하기
+            </button>
           </div>
         ) : (
           <div className='flex justify-center items-center py-10'>
@@ -144,19 +144,19 @@ const ProductPage = () => {
                   title: product.postTitle,
                   content: product.postContent,
                   price: product.postAmount,
-                  status: product.postStatus,
+                  status: product.status,
                   src: imageSrc,
                 }
               })}
-              className='w-2/3 bg-yellow-400 text-lg text-white font-semibord py-2 border-2 
-              border-yellow-300  rounded-3xl my-10'>
+              className='w-2/3 bg-yellow-400 text-lg text-white font-semibord py-2 border-2 border-yellow-300 rounded-3xl my-10'>
               수정하기
             </button>
           </div>
         )}
       </div>
     </div>
-  )
+  );
+
 }
 
-export default ProductPage
+export default Item;
