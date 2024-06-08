@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { IoChatbubbleEllipses  } from "react-icons/io5";
 import { IoPersonCircleSharp } from "react-icons/io5";
-import Chat from './Chat';
+import Chat from './Chat/Chat';
 import {  useNavigate } from 'react-router-dom';
 import { IoLogOut } from "react-icons/io5";
 import { store } from '../reducer/store';

@@ -3,6 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom'
 import { IoPersonCircleOutline } from "react-icons/io5";
 import { useSelector } from 'react-redux';
 import axios from 'axios';
+import { FaSpinner } from "react-icons/fa";
 
 const ProductPage = () => {
   const [product, setProduct] = useState(null);
@@ -54,7 +55,19 @@ const ProductPage = () => {
   }
 
   if (!product) {
-    return <div>Loading...</div>;
+    return (
+      <div className='relative flex items-center justify-center  top-80'>
+        <div className='flex items-center gap-2 justify-center rounded-lg px-5 py-2
+        text-white bg-indigo-500'>
+        <FaSpinner className='animate-spin' />
+        <p 
+        className="text-lg shadow-sm " disabled>
+          Processing...
+        </p>
+        </div>
+      </div>
+    
+    )
   }
 
   let imageSrc = '';
