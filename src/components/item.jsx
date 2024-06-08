@@ -16,26 +16,10 @@ const Items = ({ productId, name, id, period, title, price, status, src, content
 
 
   useEffect(() => {
-    
-  
-
   }, [])
   
   const gotoProductsHandler = () => {
-    navigate(`/products/${productId}`, {
-      state: {
-        id,
-        name,
-        productId,
-        period,
-        title,
-        content,
-        price,
-        status,
-        src,
-        bookmark: isBookmarked
-      }
-    });
+    navigate(`/products/${productId}`);
   };
 
   const BookmarkHandler = async (event) => {
