@@ -14,79 +14,39 @@ const ChatDetail = () => {
         {/* 내가 보내는 메시지 */}
         <div className='h-3/4'>
         <div className='w-[350px] flex items-center justify-end rounded-md mb-2'>
-                <p className='text-[15px] w-full bg-slate-400 max-w-60 p-1 rounded-[5px]'>
-                  <p>내가 보내는 메시지가 길이를 넘으면 어떻게 되게용?ㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋ</p>
+                <p className='text-[15px] w-full bg-slate-400 max-w-60 p-1 rounded-[15px]'>
+                  <p>ㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋ</p>
                 </p>
           </div>
           <div className='w-[350px] flex items-center justify-end rounded-md mb-2'>
-                <p className='text-[15px] w-full bg-slate-400 max-w-60 p-1 rounded-[5px]'>
-                  <p>내가 보내는 메시지가 길이를 넘으면 어떻게 되게용?ㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋ</p>
+                <p className='text-[15px] w-full bg-slate-400 max-w-60 p-1 rounded-[15px]'>
+                  <p>ㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋ</p>
                 </p>
           </div><div className='w-[350px] flex items-center justify-end rounded-md mb-2'>
-                <p className='text-[15px] w-full bg-slate-400 max-w-60 p-1 rounded-[5px]'>
-                  <p>내가 보내는 메시지가 길이를 넘으면 어떻게 되게용?ㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋ</p>
+                <p className='text-[15px] w-full bg-slate-400 max-w-60 p-1 rounded-[15px]'>
+                  <p>ㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋ</p>
                 </p>
           </div><div className='w-[350px] flex items-center justify-end rounded-md mb-2'>
-                <p className='text-[15px] w-full bg-slate-400 max-w-60 p-1 rounded-[5px]'>
-                  <p>내가 보내는 메시지가 길이를 넘으면 어떻게 되게용?ㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋ</p>
+                <p className='text-[15px] w-full bg-slate-400 max-w-60 p-1 rounded-[15px]'>
+                  <p>ㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋ</p>
                 </p>
           </div><div className='w-[350px] flex items-center justify-end rounded-md mb-2'>
-                <p className='text-[15px] w-full bg-slate-400 max-w-60 p-1 rounded-[5px]'>
-                  <p>내가 보내는 메시지가 길이를 넘으면 어떻게 되게용?ㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋ</p>
+                <p className='text-[15px] w-full bg-slate-400 max-w-60 p-1 rounded-[15px]'>
+                  <p>ㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋ</p>
                 </p>
           </div><div className='w-[350px] flex items-center justify-end rounded-md mb-2'>
-                <p className='text-[15px] w-full bg-slate-400 max-w-60 p-1 rounded-[5px]'>
-                  <p>내가 보내는 메시지가 길이를 넘으면 어떻게 되게용?ㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋ</p>
+                <p className='text-[15px] w-full bg-slate-400 max-w-60 p-1 rounded-[15px]'>
+                  <p>ㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋ</p>
                 </p>
           </div><div className='w-[350px] flex items-center justify-end rounded-md mb-2'>
-                <p className='text-[15px] w-full bg-slate-400 max-w-60 p-1 rounded-[5px]'>
-                  <p>내가 보내는 메시지가 길이를 넘으면 어떻게 되게용?ㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋ</p>
-                </p>
-          </div><div className='w-[350px] flex items-center justify-end rounded-md mb-2'>
-                <p className='text-[15px] w-full bg-slate-400 max-w-60 p-1 rounded-[5px]'>
-                  <p>내가 보내는 메시지가 길이를 넘으면 어떻게 되게용?ㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋ</p>
-                </p>
-          </div><div className='w-[350px] flex items-center justify-end rounded-md mb-2'>
-                <p className='text-[15px] w-full bg-slate-400 max-w-60 p-1 rounded-[5px]'>
-                  <p>내가 보내는 메시지가 길이를 넘으면 어떻게 되게용?ㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋ</p>
-                </p>
-          </div><div className='w-[350px] flex items-center justify-end rounded-md mb-2'>
-                <p className='text-[15px] w-full bg-slate-400 max-w-60 p-1 rounded-[5px]'>
-                  <p>내가 보내는 메시지가 길이를 넘으면 어떻게 되게용?ㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋ</p>
-                </p>
-          </div><div className='w-[350px] flex items-center justify-end rounded-md mb-2'>
-                <p className='text-[15px] w-full bg-slate-400 max-w-60 p-1 rounded-[5px]'>
-                  <p>내가 보내는 메시지가 길이를 넘으면 어떻게 되게용?ㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋ</p>
-                </p>
-          </div><div className='w-[350px] flex items-center justify-end rounded-md mb-2'>
-                <p className='text-[15px] w-full bg-slate-400 max-w-60 p-1 rounded-[5px]'>
-                  <p>내가 보내는 메시지가 길이를 넘으면 어떻게 되게용?ㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋ</p>
-                </p>
-          </div><div className='w-[350px] flex items-center justify-end rounded-md mb-2'>
-                <p className='text-[15px] w-full bg-slate-400 max-w-60 p-1 rounded-[5px]'>
-                  <p>내가 보내는 메시지가 길이를 넘으면 어떻게 되게용?ㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋ</p>
-                </p>
-          </div><div className='w-[350px] flex items-center justify-end rounded-md mb-2'>
-                <p className='text-[15px] w-full bg-slate-400 max-w-60 p-1 rounded-[5px]'>
-                  <p>내가 보내는 메시지가 길이를 넘으면 어떻게 되게용?ㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋ</p>
-                </p>
-          </div><div className='w-[350px] flex items-center justify-end rounded-md mb-2'>
-                <p className='text-[15px] w-full bg-slate-400 max-w-60 p-1 rounded-[5px]'>
-                  <p>내가 보내는 메시지가 길이를 넘으면 어떻게 되게용?ㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋ</p>
-                </p>
-          </div><div className='w-[350px] flex items-center justify-end rounded-md mb-2'>
-                <p className='text-[15px] w-full bg-slate-400 max-w-60 p-1 rounded-[5px]'>
-                  <p>내가 보내는 메시지가 길이를 넘으면 어떻게 되게용?ㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋ</p>
-                </p>
-          </div><div className='w-[350px] flex items-center justify-end rounded-md mb-2'>
-                <p className='text-[15px] w-full bg-slate-400 max-w-60 p-1 rounded-[5px]'>
-                  <p>내가 보내는 메시지가 길이를 넘으면 어떻게 되게용?ㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋ</p>
+                <p className='text-[15px] w-full bg-slate-400 max-w-60 p-1 rounded-[15px]'>
+                  <p>ㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋ</p>
                 </p>
           </div>
         {/* 상대가 보내는 메시지 */}
         <div className='w-[350px] flex items-center justify-start rounded-md mb-2'>
-              <p className='text-[15px] w-full bg-slate-400 max-w-60 p-1 rounded-[5px]'>
-              <p>상대가보내는 메시지가 길이를 넘으면 어떻게 되게용?ㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋ</p>
+              <p className='text-[15px] w-full bg-slate-400 max-w-60 p-1 rounded-[15px]'>
+              <p>ㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋ</p>
               </p>
             </div>
           </div>
