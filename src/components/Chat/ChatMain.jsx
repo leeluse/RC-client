@@ -9,15 +9,28 @@ const ChatMain = ({ showChat, setShowChat, chatData }) => {
   const userID = useSelector((state)=> state.user.userID)
 
   useEffect(() => {
-    const users = chatData.map(v => ({
-      roomID: v._id,
-      userID: userID,
-      postUserID: v.postUser_ID.user_ID,
-      postUserName: v.postUser_ID.user_Name,
-      item: v.roomName,
-    }));
+    const users = chatData.map(v => {
+      if (userID === v.my_ID.user_ID) {
+        return {
+          roomID: v._id,
+          userID: v.my_ID.user_ID,
+          postUserID: v.postUser_ID.user_ID,
+          postUserName: v.postUser_ID.user_Name,
+          item: v.roomName,
+        };
+      } else {
+        return {
+          roomID: v._id,
+          userID: v.postUser_ID.user_ID,
+          postUserID: v.my_ID.user_ID,
+          postUserName: v.my_ID.user_Name,
+          item: v.roomName,
+        };
+      }
+    });
     setChatUsers(users);
-  }, [chatData]);
+  }, [chatData, userID]);
+  
 
   const handleBackButtonClick = () => {
     if (selectedUser) {
@@ -42,11 +55,11 @@ const ChatMain = ({ showChat, setShowChat, chatData }) => {
                     <IoArrowBackOutline className='h-8 w-8' />
                   </button>
                   <div className='flex flex-col mx-1'>
-                    <p className='font-[Pretendard] text-[28px] font-bold'>
+                    <p className='font-Pretendard text-[28px] font-bold'>
                       {selectedUser ? selectedUser.name : "채팅하기"}
                     </p>
                     {selectedUser && (
-                      <p className='text-sm font-[Pretendard] max-w-60 pr-10'>
+                      <p className='text-sm font-Pretendard max-w-60 pr-10'>
                         {selectedUser.item}
                       </p>
                     )}
