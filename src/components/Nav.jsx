@@ -9,7 +9,7 @@ import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 import { setAccessToken } from '../reducer/user';
 
-const Nav = ({ searchQuery, handleSearchInput, handleSearchSubmit }) => {
+const Nav = ({ handleSearchSubmit }) => {
   const [showChat, setShowChat] = useState(false);
   const navigate = useNavigate();
   const persistor = persistStore(store);
@@ -17,6 +17,7 @@ const Nav = ({ searchQuery, handleSearchInput, handleSearchSubmit }) => {
   const dispatch = useDispatch();
   const [chatData, setChatData] = useState([]);
   const userID = useSelector((state) => state.user.userID);
+  const [searchQuery, setSearchQuery] = useState("");
 
   const getList = async () => {
     try {
@@ -33,6 +34,7 @@ const Nav = ({ searchQuery, handleSearchInput, handleSearchSubmit }) => {
       }
     }
   };
+  
 
   const mypageHandler = async () => {
     if (!accessToken) {
@@ -118,18 +120,19 @@ const Nav = ({ searchQuery, handleSearchInput, handleSearchSubmit }) => {
             </button>
           </div>
           <div className='w-full'>
-            <form onSubmit={handleSearchSubmit} className='rounded-md bg-slate-200 flex pr-2'>
+          <form onSubmit={(e) => handleSearchSubmit(e, searchQuery)} className='rounded-md bg-slate-200 flex pr-2'>
               <input
                 className='w-full outline-none rounded-md text-neutral-500 p-2 bg-slate-200'
                 placeholder='Search Here'
                 value={searchQuery}
-                onChange={handleSearchInput}
+                onChange={(e) => setSearchQuery(e.target.value)}
               />
-              <button className="flex items-center justify-center">
+              <button type="submit" className="flex items-center justify-center">
                 <img src="/src/assets/search.svg" alt="" style={{ width: '20px', height: '20px' }} />
               </button>
             </form>
           </div>
+
 
           <div className='w-full flex justify-end items-center sm:gap-1 lg:gap-3'>
             <IoChatbubbleEllipses onClick={getList} className='w-9 h-9 cursor-pointer' />

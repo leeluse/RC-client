@@ -4,15 +4,16 @@ import axios from 'axios';
 import { useSelector } from 'react-redux';
 import { FaSpinner } from "react-icons/fa";
 
-export function MainItems({ searchQuery, setSearchResults }) {
+export function MainItems({ search }) {
   const [products, setProducts] = useState([]);
   const [bookmark, setBookmark] = useState([]);
-  const [loading, setLoading] = useState(true);  // 로딩 상태 추가
-  const [error, setError] = useState(null);      // 에러 상태 추가
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
   const userID = useSelector((state) => state.user.userID);
   const endpoint = "bookmarklist";
 
-  // 상품 목록을 가져오는 함수
+  console.log("main", search);
+
   const getProducts = async () => {
     try {
       const res = await axios.get("http://localhost:5001/");
@@ -23,10 +24,9 @@ export function MainItems({ searchQuery, setSearchResults }) {
     }
   };
 
-  // 북마크 데이터를 가져오는 함수
   const getBookmark = async () => {
     try {
-      const res = await axios.get(`http://localhost:5001/${userID}/${endpoint}`);
+      const res = await axios.get(`http://localhost:5001/${userID}/${endpoint}`, userID);
       if (res.status === 200) {
         const bookmarkData = res.data.map(data => data._id);
         setBookmark(bookmarkData);
@@ -46,9 +46,8 @@ export function MainItems({ searchQuery, setSearchResults }) {
     };
 
     fetchData();
-  }, [userID]); // userID가 변경될 때만 실행되도록 의존성 배열 설정
+  }, [userID]);
 
-  // 이미지 데이터를 Base64로 변환하는 함수
   const arrayBufferToBase64 = (buffer) => {
     let binary = '';
     const bytes = new Uint8Array(buffer);
@@ -57,12 +56,13 @@ export function MainItems({ searchQuery, setSearchResults }) {
       binary += String.fromCharCode(bytes[i]);
     }
     return window.btoa(binary);
-  };
+  }
 
-  // 검색 결과가 있을 경우 해당 결과를 사용하고, 그렇지 않을 경우 기본 상품 목록을 사용
-  const itemsToDisplay = searchQuery ? products.filter(product => product.title.toLowerCase().includes(searchQuery.toLowerCase())) : products;
+  const filteredProducts = products.filter(product => 
+    product.postTitle.toLowerCase().includes((search || '').toLowerCase())
+  );
+  
 
-  // 로딩 중일 때 스피너 표시
   if (loading) {
     return (
       <div className='relative font-Pretendard flex items-center justify-center top-80'>
@@ -76,7 +76,6 @@ export function MainItems({ searchQuery, setSearchResults }) {
     );
   }
 
-  // 에러가 발생했을 때 에러 메시지 표시
   if (error) {
     return <div className='text-center text-red-500'>{error}</div>;
   }
@@ -84,7 +83,7 @@ export function MainItems({ searchQuery, setSearchResults }) {
   return (
     <div className='flex justify-center'>
       <div className='grid justify-center sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3'>
-        {itemsToDisplay.map((product, index) => {
+        {filteredProducts.map((product, index) => {
           let imageSrc = '';
           if (product.postImage && product.postImage.data) {
             const imageData = product.postImage.data.data;
@@ -104,7 +103,7 @@ export function MainItems({ searchQuery, setSearchResults }) {
               status={product.postStatus ? product.postStatus : "예약 가능"}
               src={imageSrc}
               content={product.postContent}
-              bookmark={isBookmarked} 
+              bookmark={isBookmarked}
             />
           );
         })}
