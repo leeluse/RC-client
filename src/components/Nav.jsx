@@ -54,7 +54,6 @@ const Nav = ({ }) => {
           if(status == 401) {
             alert("토큰을 재발급합니다.")
             const newToken = await refreshAccessToken();
-
             // 토큰이 성공적으로 갱신되었을 때 실행
             if (newToken) {
               res = await axios.get('http://localhost:5001/signin/protected-route', {
