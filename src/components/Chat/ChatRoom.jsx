@@ -5,12 +5,14 @@ import { useSelector } from 'react-redux';
 import axios from 'axios';
 
 const ChatRoom = ({ users }) => {
-  const { item, roomID, userID, postUserID, postUserName } = users;
+  const { item, roomID, userID, postUserID, postUserName, etc_id } = users;
   const [messages, setMessages] = useState([]);
   const [message, setMessage] = useState('');
   const myID = useSelector((state) => state.user.userID)
 
   useEffect(() => {
+    console.log(userID)
+    console.log(myID)
     getPrevMessage(roomID);
 
     socket.on('chat message', (msg) => {

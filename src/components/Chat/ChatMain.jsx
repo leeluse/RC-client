@@ -9,15 +9,28 @@ const ChatMain = ({ showChat, setShowChat, chatData }) => {
   const userID = useSelector((state)=> state.user.userID)
 
   useEffect(() => {
-    const users = chatData.map(v => ({
-      roomID: v._id,
-      userID: userID,
-      postUserID: v.postUser_ID.user_ID,
-      postUserName: v.postUser_ID.user_Name,
-      item: v.roomName,
-    }));
+    const users = chatData.map(v => {
+      if (userID === v.my_ID.user_ID) {
+        return {
+          roomID: v._id,
+          userID: v.my_ID.user_ID,
+          postUserID: v.postUser_ID.user_ID,
+          postUserName: v.postUser_ID.user_Name,
+          item: v.roomName,
+        };
+      } else {
+        return {
+          roomID: v._id,
+          userID: v.postUser_ID.user_ID,
+          postUserID: v.my_ID.user_ID,
+          postUserName: v.my_ID.user_Name,
+          item: v.roomName,
+        };
+      }
+    });
     setChatUsers(users);
-  }, [chatData]);
+  }, [chatData, userID]);
+  
 
   const handleBackButtonClick = () => {
     if (selectedUser) {
