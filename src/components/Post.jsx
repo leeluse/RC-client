@@ -83,6 +83,7 @@ const Post = ({ setShowPost }) => {
     formData.append("amount", data.amount);
     formData.append("period", data.period);
     formData.append("content", data.content);
+    formData.append("status", "예약 가능");
     if (imageData.file) {
       formData.append("postImage", imageData.file);
     }

@@ -31,7 +31,7 @@ const Item = () => {
         const fetchedProduct = res.data;
         setProduct({
           ...fetchedProduct,
-          status: fetchedProduct.status ? fetchedProduct.status : "예약 가능"
+          status: fetchedProduct.postStatus ? fetchedProduct.postStatus : "예약 가능"
         });
       }
     } catch (error) {
@@ -165,10 +165,13 @@ const Item = () => {
             </div>
           </div>
           {/* 북마크 버튼 */}
-          <button onClick={toggleBookmark} className='focus:outline-none'>
+          {product.userID !== userID && 
+            <button onClick={toggleBookmark} className='focus:outline-none'>
             {bookmark.includes(productId) ? <FaRegHeart className='w-6 h-6'/>
              : <FaHeart className='w-6 h-6 text-red-500'/>}
           </button>
+          }
+          
         </div>
         <div className='text-gray-800 font-bold text-3xl py-2 '>{product.postTitle}</div>
         {/* 가격 */}
