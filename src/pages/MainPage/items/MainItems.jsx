@@ -4,7 +4,7 @@ import axios from 'axios';
 import { useSelector } from 'react-redux';
 import { FaSpinner } from "react-icons/fa";
 
-export function MainItems() {
+export function MainItems({ searchQuery, setSearchResults }) {
   const [products, setProducts] = useState([]);
   const [bookmark, setBookmark] = useState([]);
   const [loading, setLoading] = useState(true);  // 로딩 상태 추가
@@ -26,7 +26,7 @@ export function MainItems() {
   // 북마크 데이터를 가져오는 함수
   const getBookmark = async () => {
     try {
-      const res = await axios.get(`http://localhost:5001/${userID}/${endpoint}`, userID);
+      const res = await axios.get(`http://localhost:5001/${userID}/${endpoint}`);
       if (res.status === 200) {
         const bookmarkData = res.data.map(data => data._id);
         setBookmark(bookmarkData);
@@ -44,7 +44,7 @@ export function MainItems() {
       await getProducts();
       setLoading(false);
     };
-  
+
     fetchData();
   }, [userID]); // userID가 변경될 때만 실행되도록 의존성 배열 설정
 
@@ -57,7 +57,10 @@ export function MainItems() {
       binary += String.fromCharCode(bytes[i]);
     }
     return window.btoa(binary);
-  }
+  };
+
+  // 검색 결과가 있을 경우 해당 결과를 사용하고, 그렇지 않을 경우 기본 상품 목록을 사용
+  const itemsToDisplay = searchQuery ? products.filter(product => product.title.toLowerCase().includes(searchQuery.toLowerCase())) : products;
 
   // 로딩 중일 때 스피너 표시
   if (loading) {
@@ -81,7 +84,7 @@ export function MainItems() {
   return (
     <div className='flex justify-center'>
       <div className='grid justify-center sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3'>
-        {products.map((product, index) => {
+        {itemsToDisplay.map((product, index) => {
           let imageSrc = '';
           if (product.postImage && product.postImage.data) {
             const imageData = product.postImage.data.data;
@@ -101,7 +104,7 @@ export function MainItems() {
               status={product.postStatus ? product.postStatus : "예약 가능"}
               src={imageSrc}
               content={product.postContent}
-              bookmark={isBookmarked}
+              bookmark={isBookmarked} 
             />
           );
         })}
