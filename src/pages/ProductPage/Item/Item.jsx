@@ -1,18 +1,28 @@
-// Item 컴포넌트
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { IoPersonCircleOutline } from "react-icons/io5";
+import { FaSpinner, FaHeart, FaRegHeart } from "react-icons/fa"; // 북마크 아이콘 추가
 import { useSelector } from 'react-redux';
 import axios from 'axios';
-import { FaSpinner } from "react-icons/fa";
-import ChatMain from '../../../components/Chat/ChatMain';
 
 const Item = () => {
   const [product, setProduct] = useState(null);
   const { productId } = useParams();
   const navigate = useNavigate();
+  const [bookmark, setBookmark] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
   const userID = useSelector((state) => state.user.userID);
-  const [showChat, setShowChat] = useState(false);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      setLoading(true);
+      await getBookmark();
+      await getProducts();
+      setLoading(false);
+    };
+    fetchData();
+  }, [userID]);
 
   const getProducts = async () => {
     try {
@@ -21,21 +31,42 @@ const Item = () => {
         const fetchedProduct = res.data;
         setProduct({
           ...fetchedProduct,
-          status: fetchedProduct.status ? fetchedProduct.status : "예약 가능"
+          status: fetchedProduct.postStatus ? fetchedProduct.postStatus : "예약 가능"
         });
       }
     } catch (error) {
       console.error(error.message);
+      setError(error.message);
     }
   };
 
- 
-  useEffect(() => {
-    getProducts();
-  }, [productId]);
+  const getBookmark = async () => {
+    try {
+      const res = await axios.get(`http://localhost:5001/${userID}/bookmarklist`, userID);
+      if (res.status === 200) {
+        const bookmarkData = res.data.map(data => data._id);
+        setBookmark(bookmarkData);
+      }
+    } catch (error) {
+      console.error(error);
+      setError(error.message);
+    }
+  };
 
-
-
+  const toggleBookmark = async () => {
+    try {
+      if (bookmark.includes(productId)) {
+        await axios.post(`http://localhost:5001/${userID}/deleteBookmark`, { userID, postID: productId });
+        setBookmark(bookmark.filter(id => id !== productId));
+      } else {
+        await axios.post(`http://localhost:5001/${userID}/addBookmark`, { userID, postID: productId });
+        setBookmark([...bookmark, productId]);
+      }
+    } catch (error) {
+      console.error(error.message);
+      setError(error.message);
+    }
+  };
 
   const chatHandler = async () => {
     const postUserId = product.userID;
@@ -45,12 +76,13 @@ const Item = () => {
         postid: postUserId,
         postTitle: product.postTitle,
       });
-      if(res.status === 200) {
-        console.log(res)
-        alert("채팅방이 성공적으로 생성되었습니다.")
+      if (res.status === 200) {
+        console.log(res);
+        alert("채팅방이 성공적으로 생성되었습니다.");
       }
     } catch (error) {
       console.error(error.response ? error.response.data : error.message);
+      setError(error.message);
     }
   };
 
@@ -63,6 +95,21 @@ const Item = () => {
     }
     return window.btoa(binary);
   };
+
+  if (loading) {
+    return (
+      <div className='relative font-Pretendard flex items-center justify-center top-80'>
+        <div className='flex items-center gap-2 justify-center rounded-lg px-5 py-2 text-white bg-indigo-500'>
+          <FaSpinner className='animate-spin' />
+          <p className="text-lg shadow-sm" disabled>Processing...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return <div className='text-center text-red-500'>{error}</div>;
+  }
 
   if (!product) {
     return (
@@ -105,7 +152,7 @@ const Item = () => {
           <span>{product.userName}</span>
         </div>
         <hr className='p-2' />
-        <div className='flex justify-between'>
+        <div className='flex justify-between items-center'>
           <div className='inline-block'>
             <div className='flex items-center gap-2 border-2 px-2 my-2 justify-center rounded-2xl text-slate-700 border-slate-500'>
               <p className="font-medium text-sm">{product.status}</p>
@@ -117,6 +164,14 @@ const Item = () => {
               {product.status === '렌탈 중' && <p className="w-3 h-3 rounded-2xl bg-rose-600"></p>}
             </div>
           </div>
+          {/* 북마크 버튼 */}
+          {product.userID !== userID && 
+            <button onClick={toggleBookmark} className='focus:outline-none'>
+            {bookmark.includes(productId) ? <FaRegHeart className='w-6 h-6'/>
+             : <FaHeart className='w-6 h-6 text-red-500'/>}
+          </button>
+          }
+          
         </div>
         <div className='text-gray-800 font-bold text-3xl py-2 '>{product.postTitle}</div>
         {/* 가격 */}
@@ -156,7 +211,6 @@ const Item = () => {
       </div>
     </div>
   );
-
 }
 
 export default Item;
