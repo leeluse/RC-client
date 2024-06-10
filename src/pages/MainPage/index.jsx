@@ -3,19 +3,20 @@ import Nav from '../../components/Nav';
 import { MainItems } from './items/MainItems';
 
 const MainPage = () => {
- 
-  useEffect(() => {
-    return () => {
-    }
-  }, [])
-  
-
+  const [search, setSearch] = useState("")
+  const handleSearchSubmit = ( e, searchQuery ) => {
+    e.preventDefault()
+    setSearch(searchQuery)
+  }
   return (
   <>
     <>
-      <Nav />
+    <Nav
+        handleSearchSubmit={handleSearchSubmit}
+      />
       <div className='h-screen overflow-auto scrollbar-hide py-36'>
-        <MainItems />
+       {/* MainItems 컴포넌트에 검색어와 검색 결과를 전달 */}
+       <MainItems search={search} />
       </div>
       </>
     </>
