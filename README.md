@@ -47,31 +47,24 @@
 
 ---
 
-### 🚀 주요 기능
+### 🚀 프로젝트 주요 기능
+#### 🔐 사용자 인증 및 관리
+- 회원가입/로그인 (redux persist & JWT)
 
-#### 사용자 인증 및 관리
-- **회원가입/로그인**
-  - Redux persist와 JWT를 활용하여 사용자 인증 기능을 구현합니다.
+#### 📦 상품 등록 및 관리
+- 게시물 CRUD
+  - 게시물 작성
+  - 게시물 읽어오기
+  - 게시물 수정하기
+  - 게시물 삭제
+- 게시물 좋아요
+- 게시물 이미지 업로드 (image Uploader & multer)
+- 게시물 예약 상태 변경
 
-#### 상품 등록 및 관리
-- **게시물 CRUD**
-  - 게시물을 생성, 읽기, 수정, 삭제할 수 있는 기능을 제공합니다.
-
-- **게시물 좋아요**
-  - 사용자가 게시물을 좋아하거나 관심을 표시할 수 있는 기능을 제공합니다.
-
-- **게시물 이미지 업로드**
-  - 이미지 업로드 기능을 통해 게시물에 사진을 첨부할 수 있습니다. Multer와 같은 이미지 업로드 미들웨어를 사용합니다.
-
-- **게시물 예약 상태 변경**
-  - 사용자가 게시물을 예약하거나 예약 상태를 변경할 수 있는 기능을 제공합니다.
-
-#### 실시간 채팅
-- **채팅방 관리**
-  - 실시간 채팅을 위한 채팅방 생성 및 삭제 기능을 제공합니다.
-
-- **채팅 메시지 전송**
-  - 사용자간에 실시간으로 메시지를 교환할 수 있는 기능을 제공합니다.
+#### 💬 실시간 채팅 (Socket.io)
+- 채팅방 생성/삭제
+- 채팅 메시지 생성
+- 채팅 메시지 읽어오기
 
 <br />
 
@@ -80,15 +73,21 @@
 ### 🛠️ 개발 환경
 <table align="center">
   <tr>
-    <td align="center" style="border: 1px solid #ddd; padding: 10px;">
+    <td align="center">
       <p><strong>Client</strong></p>
+    </td>
+    <td align="center">
+      <p><strong>Server</strong></p>
+    </td>
+  </tr>
+  <tr>
+    <td align="center">
       <p>개발 환경: Visual Studio Code</p>
       <p>프레임워크: React (빌드 도구: Vite)</p>
       <p>개발 언어: JavaScript</p>
       <p>CSS 프레임워크: Tailwind CSS</p>
     </td>
-    <td align="center" style="border: 1px solid #ddd; padding: 10px;">
-      <p><strong>Server</strong></p>
+    <td align="center">
       <p>개발 환경: Visual Studio Code</p>
       <p>프레임워크: Node.js + Express</p>
       <p>개발 언어: JavaScript</p>
@@ -101,3 +100,10 @@
 <br />
 
 ---
+
+### 시스템 아키텍처
+![Logo (3)](https://github.com/Rental-Change/.github/assets/122202949/2e40cd6e-412f-4423-8de9-3faf0858e204)
+
+
+<br />
+
